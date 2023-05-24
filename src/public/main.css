@@ -1,0 +1,45 @@
+.table-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#form-products {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-new-product-input-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    width: 300px;
+    gap: 5px;
+}
+
+table {
+    width: 90%;
+    text-align: center;
+    border-spacing: 0;
+    border-right: 1px solid #222;
+    border-left: 1px solid #222;
+}
+
+thead {
+    background-color: #222;
+    color: white;
+}
+
+tbody tr td {
+    padding: 10px 0;
+    border-bottom: 1px solid #222;
+}
+
+#btn-form {
+    background-color: #222;
+    color: white;
+    height: 30px; width: 100px;
+    border: none;
+    cursor: pointer;
+}

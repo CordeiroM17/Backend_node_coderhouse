@@ -15,7 +15,6 @@ export class CartManager {
         this.pathCarts = "src/db/carts.json";
         this.pathProduct = "src/db/products.json";
         this.carts = [];
-        this.id = 0;
     };
 
     async getCart(idCart) {
@@ -30,10 +29,10 @@ export class CartManager {
         }
     }
 
-    createCart(id) {
+    createCart(cartId) {
         const newCart = {
-            idCarrito: id,
-            productos: []
+            idCarrito: cartId,
+            productos: [],
         }
         this.carts.push(newCart)
         let newCartsString = JSON.stringify(this.carts);
@@ -44,10 +43,12 @@ export class CartManager {
         const fileCarts = await fs.promises.readFile(this.pathCarts, "utf-8")
         const fileCartsParse = JSON.parse(fileCarts);
         this.carts = fileCartsParse;
+        
+        productId = parseInt(productId)
+        cartId = parseInt(cartId)
 
         const allProducts = await productManager.getProducts();
-        const productFound = allProducts.find((product) => product.id === productId);
-
+        const productFound = allProducts.find((product) => product.id == productId);
         if (productFound) {
             let findCart = fileCartsParse.find((cart) => cart.idCarrito == cartId);
             
@@ -69,7 +70,6 @@ export class CartManager {
                     idProduct: productId,
                     quantity: 1,
                 }
-                
                 findCart.productos.push(products)
                 let cartsString = JSON.stringify(this.carts);
                 fs.writeFileSync(this.pathCarts, cartsString);

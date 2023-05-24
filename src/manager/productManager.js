@@ -19,12 +19,14 @@ export class ProductManager {
     const productFile = await fs.promises.readFile(this.path, "utf-8");
     const products = JSON.parse(productFile);
     this.products = products;
-    this.id = parseInt(Math.random() * 1000000 + 7);
+
+    const findLastProduct = this.products.slice(-1).pop()
+    this.id = findLastProduct.id + 1
 
     let title = newProduct.title;
     let description = newProduct.description;
     let price = newProduct.price;
-    let thumbnail = newProduct.thumbnail;
+    let thubmail = newProduct.thubmail;
     let code = newProduct.code;
     let stock = newProduct.stock;
     
@@ -38,7 +40,7 @@ export class ProductManager {
         title: title,
         description: description,
         price: price,
-        thumbnail: thumbnail,
+        thubmail: thubmail,
         code: code,
         stock: stock,
       };
@@ -74,7 +76,7 @@ export class ProductManager {
       let title = newProduct.title;
       let description = newProduct.description;
       let price = newProduct.price;
-      let thumbnail = newProduct.thumbnail;
+      let thubmail = newProduct.thubmail;
       let code = newProduct.code;
       let stock = newProduct.stock;
 
@@ -83,7 +85,7 @@ export class ProductManager {
         title: title,
         description: description,
         price: price,
-        thumbnail: thumbnail,
+        thubmail: thubmail,
         code: code,
         stock: stock,
       };
