@@ -30,10 +30,9 @@ export class ProductManager {
     let code = newProduct.code;
     let stock = newProduct.stock;
     
-    const codeError = this.products.find((prod) => prod.code == code);
-
-    if (codeError || title == "" || description == "" || price == "" || code == "" || stock == "") {
-      console.log("Error code, existing code");
+    const codeExist = this.products.find((prod) => prod.code == code);
+    if (codeExist) {
+      return false
     } else {
       const product = {
         id: this.id,
@@ -47,6 +46,7 @@ export class ProductManager {
       this.products.push(product);
       const productsString = JSON.stringify(this.products);
       await fs.promises.writeFile(this.path, productsString);
+      return true
     }
   }
 

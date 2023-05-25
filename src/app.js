@@ -52,9 +52,13 @@ const socketServer = new Server(httpServer);
 socketServer.on("connection", (socket) => {
 
   socket.on("new-product-created", async (newProduct) => {
-    await productManager.addProduct(newProduct);
-    const productList = await productManager.getProducts();
-    socketServer.emit("products", productList);
+    const productCreated = await productManager.addProduct(newProduct);
+    if (productCreated) {
+      const productList = await productManager.getProducts();
+      socketServer.emit("products", productList);
+    } else {
+      socketServer.emit("products", productCreated)
+    }
   });
 
   socket.on("delete-product", async (idToDelete) => {
