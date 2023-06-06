@@ -1,75 +1,110 @@
 import express from "express";
-import { ProductManager } from "../manager/productManager.js";
-const productManager = new ProductManager();
+import { productService } from "../services/product.service.js";
 export const productsRoute = express.Router();
 
 productsRoute.get("/", async (req, res) => {
-    const allProducts = await productManager.getProducts();
-
-    let limit = req.query.limit;
-    if (!limit) {
-        return res.json({
-        products: allProducts
+    try {
+        const allProducts = await productService.getAllProducts();
+        let limit = req.query.limit;
+        if (!limit) {
+            return res.status(200).json({ 
+                status: "success", 
+                msg: "all products",
+                data: allProducts
+            });
+        } else if (limit > 0 && limit <= allProducts.length) {
+            let productsLimit = allProducts.slice(0, limit);
+            return res.status(200).json({
+                status: "success",
+                msg: `first ${limit} products`,
+                data: productsLimit
+            });
+        } else if (limit > allProducts.length) {
+            return res.status(404).json({
+            status: "error",
+            msg: "exceed the limit of products",
+            data: {}
+            });
+        };
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({ 
+            status: "error", 
+            msg: "something went wrong",
+            data: {}
         });
-    }else if (limit > 0 && limit <= allProducts.length) {
-        let productsLimit = allProducts.slice(0, limit);
-        return res.json({ data: productsLimit });
-    }else if (limit > allProducts.length) {
-        return res.json({
-        status: "error",
-        msg: "Exceed the limit of products",
-        });
-    }
-
-    return res.status(200).json({ 
-      status: "Success", 
-      msg: "All products",
-      data: allProducts
-    });
+    };
 });
   
 productsRoute.get("/:pid", async (req, res) => {
-    const allProducts = await productManager.getProducts();
-    let productId = req.params.pid;
-    let productFound = allProducts.find((product) => product.id === productId);
-    if (!productFound) {
-        return res.status(404).json({ status: "Error", data: "Product ID not found" });
-    }
-    res.status(200).json({ status: "success", data: productFound });
+    try {
+        let productId = req.params.pid;
+        const productFound = await productService.getProductById(productId);
+        return res.status(200).json({ 
+            status: "success", 
+            msg: "product found",
+            data: productFound 
+        });
+    } catch (error) {
+        return res.status(404).json({ 
+            status: "error",
+            msg: "product not found",
+            data: "product ID not found"
+        });   
+    };
 });
 
-productsRoute.delete("/:id", (req, res) => {
-    const id = req.params.id;
-    productManager.deleteProduct(id)
+productsRoute.delete("/:id", async (req, res) => {
+    try {
+        const id = req.params.id;
+        await productService.deleteProduct(id);
+        return res.status(200).json({
+            status: "success",
+            msg: "product deleted",
+            data: {}
+        });
+    } catch (error) {
+        return res.status(404).json({
+            status: "error",
+            msg: "product not exist",
+            data: {}
+        });
+    };
 });
 
 productsRoute.post("/", async (req, res) => {
-    const productToCreate = req.body;
-    await productManager.addProduct(productToCreate)
-    
-    return res.status(201).json({
-      status: "success",
-      msg: "Product create",
-      data: productToCreate,
-    });
+    try {
+        const productToCreate = req.body;
+        const productCreated = await productService.createProduct(productToCreate);
+        return res.status(201).json({
+            status: "success",
+            msg: "product create",
+            data: productCreated
+          });
+    } catch (error) {
+        return res.status(404).json({
+            status: "error",
+            msg: "product not created",
+            data: {}
+        });
+    };
 });
 
 productsRoute.put("/:id", async (req, res) => {
-    const id = req.params.id;
-    const newProduct = req.body;
-    const productCreate = await productManager.updateProduct(id, newProduct)
-
-    if (productCreate) {
+    try {
+        const id = req.params.id;
+        const newProduct = req.body;
+        await productService.putProduct(id, newProduct)
         return res.status(201).json({
             status: "success",
             msg: "successfully modified product",
-            data: newProduct,
+            data: newProduct
         });
-    } else {
-        return res.status(201).json({
+    } catch (error) {
+        return res.status(404).json({
             status: "error",
             msg: "could not modify object",
-            data: {},
+            data: {}
         });
-    }
-  });
+    };
+});

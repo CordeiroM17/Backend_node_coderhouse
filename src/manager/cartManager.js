@@ -1,19 +1,18 @@
 import fs from "fs"
 const createJsonFile = async () => {
-  if (!fs.existsSync("src/db/carts.json")) {
-    return await fs.promises.writeFile("src/db/carts.json", "[]");
+  if (!fs.existsSync("src/DAO/db/carts.json")) {
+    return await fs.promises.writeFile("src/DAO/db/carts.json", "[]");
   }
 };
 
 createJsonFile();
 
-import { ProductManager } from "./productManager.js";
-const productManager = new ProductManager();
+import { productManager } from "./productManager.js";
 
 export class CartManager {
     constructor() {
-        this.pathCarts = "src/db/carts.json";
-        this.pathProduct = "src/db/products.json";
+        this.pathCarts = "src/DAO/db/carts.json";
+        this.pathProduct = "src/DAO/db/products.json";
         this.carts = [];
     };
 

@@ -1,5 +1,0 @@
-- [ x ] Crear una vista ```home.handlebars``` la cual contenga una lista de todos los productos agregados hasta el momento
-
-- [  ] Crear una vista ```realTimeProducts.handlebars``` la cual vivira en el endpoint ```/realtimeproducts``` esta contendra la misma lista de productos pero trabajara con web socket. Al trabajar con esto cada vez que creemos o eliminemos se debe actualizar automatiacamente en dicha vista la lista
-
-Ya que la conexion entre una consulta HTTP y websocket no esta contemplada dentro de la clase. Se recomienda que, para la creacion y eliminacion de un producto se cree un formulario simple en la vista ```realTimeProducts.handlebars``` para que el contenido se envie desde websocket y no HTTP. Sin embargo esta no es la mejor solucion. Si se desea hacer la conexion de socket emits con HTTP, deberas buscar la forma de utilizar el sevidor io de Sopcket dentro de la peticion POST

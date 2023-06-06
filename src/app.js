@@ -1,15 +1,16 @@
 import express from "express";
 import handlebars from "express-handlebars";
 import { Server } from "socket.io";
-import { ProductManager } from "./manager/productManager.js";
+import { productManager } from "./manager/productManager.js";
 import { cartsRoute } from "./routes/carts.routes.js";
 import { productsRoute } from "./routes/product.routes.js";
 import { realTimeProducts } from "./routes/real-time-products.routes.js";
-import { __dirname } from "./utils.js";
+import { __dirname } from "./utils/dirname.js";
+import { connectMongo } from "./utils/connections.js"
 const app = express();
 const port = 8080;
 
-const productManager = new ProductManager();
+connectMongo();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

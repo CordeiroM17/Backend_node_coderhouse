@@ -1,15 +1,15 @@
 import fs from "fs"
 const createJsonFile = async () => {
-  if (!fs.existsSync("src/db/products.json")) {
-    return await fs.promises.writeFile("src/db/products.json", "[]");
+  if (!fs.existsSync("src/DAO/db/products.json")) {
+    return await fs.promises.writeFile("src/DAO/db/products.json", "[]");
   }
 };
 
 createJsonFile();
 
-export class ProductManager {
+class ProductManager {
   constructor() {
-    this.path = "src/db/products.json";
+    this.path = "src/DAO/db/products.json";
     this.products = [];
     this.id = 0;
   }
@@ -121,3 +121,5 @@ export class ProductManager {
     }
   }
 }
+
+export const productManager = new ProductManager();
