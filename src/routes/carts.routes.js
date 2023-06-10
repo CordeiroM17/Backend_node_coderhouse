@@ -1,45 +1,43 @@
 import express from "express";
-import { CartManager } from "../manager/cartManager.js";
-const cartManager = new CartManager();
-
+import { cartsService } from "../services/carts.service.js";
 export const cartsRoute = express.Router();
 
 cartsRoute.get("/:cid", async (req, res) => {
-    const cartId = req.params.cid;
-    const cart = await cartManager.getCart(cartId);
-
-    if (cart) {
+    try {
+        const cartId = req.params.cid;
+        const cart = await cartsService.getCartById(cartId)
         return res.status(201).json({
             status: "success",
-            msg: `cart: ${cartId}`,
-            data: cart,
+            msg: `cartId: ${cartId}`,
+            data: cart
         })
-    } else {
-        return res.status(404).json({
-            status: "error",
-            msg: `cart: ${cartId}, not exist. Add a product please`,
-            data: {},
-        })
+    } catch (error) {
+        return res.status(500).json({ 
+            status: "error", 
+            msg: "something went wrong",
+            data: {}
+        });
     }
 });
 
 cartsRoute.post("/:cid/product/:pid", async (req, res) => {
-    const cartId = req.params.cid;
-    const productId = req.params.pid
-    const productAddToCart = await cartManager.addItemToCart(cartId, productId);
-    const cart = await cartManager.getCart(cartId);
-
-    if (productAddToCart) {
+    try {
+        const cartId = req.params.cid;
+        const productId = req.params.pid;
+        const productAddToCart = await cartsService.addItemToCart(cartId, productId);
+        const cart = await cartsService.getCartById(cartId)
         return res.status(201).json({
             status: "success",
-            msg: "Product added",
-            data: cart,
+            msg: "product added",
+            data: cart
         })
-    } else {
+    } catch (error) {
         return res.status(404).json({
             status: "error",
-            msg: "Product not added",
-            data: {},
-        }) 
+            msg: "product not added",
+            data: {}
+        })
     }
+    
+    const cart = await cartManager.getCart(cartId);
 });

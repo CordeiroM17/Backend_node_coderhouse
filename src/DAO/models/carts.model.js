@@ -1,8 +1,8 @@
 import { Schema, model } from "mongoose";
 
-export const ProductModel = model(
+export const CartsModel = model(
     "carts",
     new Schema({
-        productos: {type: Array}
+        productos: [{type: Object}]
     })
 );
