@@ -14,6 +14,39 @@ class CartsService {
         }
     }
 
+    async putQuantityProduct(cartId, productId, quantityBody) {
+        // Busca y comprueba si exite el carrito
+        const cartFound = await this.getCartById(cartId);
+        this.cartExistValidation(cartFound);
+
+        // Busca y comptueba si existe el producto
+        const productToEdit = await productService.getProductById(productId);
+        this.productExistValidation(productToEdit)
+
+        console.log("verifique que el producto y el carrito existen");
+
+        const {quantity} = quantityBody;
+
+        await CartsModel.findOneAndUpdate(
+            {_id: cartId, "productos.idProduct": productToEdit._id },
+            {
+                $set: {"productos.$.quantity": quantity}
+            }
+        );
+    }
+
+    async putCartProductArray(cartId, productArray) {
+        let newProductArray = productArray.productos.map((prod) => {
+            return {
+              idProduct: prod.idProduct,
+              quantity: prod.quantity
+            };
+        });
+
+        const cart = await CartsModel.findByIdAndUpdate({_id: cartId}, {productos: newProductArray})
+        return cart
+    }
+
     async deleteAllProductsFromCart(cartId) {
         await CartsModel.findByIdAndUpdate(cartId, {productos: []});
     }
@@ -32,9 +65,7 @@ class CartsService {
     }
 
     async getCartById(id) {
-        console.log("entrando: ",id)
         const cartFound = await CartsModel.findById(id)
-        console.log(cartFound)
         return cartFound;
     }
 
@@ -55,7 +86,7 @@ class CartsService {
               $push: { productos: { idProduct: productToAdd._id, quantity: 1 } },
             });
         }
-        console.log("añadido")
+        console.log("product añadido")
     }
 }
 

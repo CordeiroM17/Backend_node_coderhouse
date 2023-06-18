@@ -7,7 +7,7 @@ import { productsRoute } from "./routes/product.routes.js";
 import { realTimeProducts } from "./routes/real-time-products.routes.js";
 import { __dirname } from "./dirname.js";
 import { connectMongo } from "./utils/connections.js"
-import { productsViewRouter } from "./routes/productsView.routes.js";
+import { viewRouter } from "./routes/views.routes.js";
 const app = express();
 const port = 8080;
 
@@ -32,7 +32,8 @@ app.get("/", async (req, res) => {
 /* ENDPOINTS */
 app.use("/api/products", productsRoute);
 app.use("/api/carts", cartsRoute);
-app.use("/products", productsViewRouter)
+app.use("/", viewRouter)
+
 /* VISTA SOCKET */
 app.use("/realtimeproducts", realTimeProducts)
 

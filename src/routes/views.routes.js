@@ -1,9 +1,9 @@
 import express from "express";
 import { productService } from "../services/product.service.js";
+import { cartsService } from "../services/carts.service.js";
+export const viewRouter = express.Router();
 
-export const productsViewRouter = express.Router();
-
-productsViewRouter.get("/", async (req, res) => {
+viewRouter.get("/products", async (req, res) => {
     const { page, limit } = req.query;
     let products = await productService.getProducts(page, limit);
     const productsMap = products.docs.map((prod) => {
@@ -27,4 +27,18 @@ productsViewRouter.get("/", async (req, res) => {
         hasPrevPage: products.hasPrevPage,
         hasNextPage: products.hasNextPage, 
     });
+});
+
+viewRouter.get("/carts/:cid", async (req, res) => {
+    const cartId = req.params.cid;
+    const cart = await cartsService.getCartById(cartId);
+
+    const productsMap = cart.productos.map((prod) => {
+        return {
+            id: prod._id.toString(),
+            quantity: prod.quantity
+        };
+    });
+
+    return res.status(200).render("carts", {productsMap});
 });

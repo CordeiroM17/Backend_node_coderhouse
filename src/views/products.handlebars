@@ -1,7 +1,7 @@
 <section class="card-container">
     {{#each payload}}
         <div class="card">
-            <img src="{{thumbnail}}" alt="image"/>
+            <img src="{{this.thumbnail}}" alt="image"/>
             <div class="card-data">
                 <h2 class="card-title">{{this.title}}</h2>
                 <p class="card-description">{{this.description}}</p>

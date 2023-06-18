@@ -5,7 +5,6 @@ export const cartsRoute = express.Router();
 cartsRoute.get("/:cid", async (req, res) => {
     try {
         const cartId = req.params.cid;
-        console.log("entre al get, ID: ",cartId)
         const cart = await cartsService.getCartById(cartId);
         return res.status(201).json({
             status: "success",
@@ -78,3 +77,43 @@ cartsRoute.delete("/:cid", async (req, res) => {
         });
     }
 })
+
+
+cartsRoute.put("/:cid/products/:pid", async (req, res) => {
+    try {
+        const cartId = req.params.cid;
+        const productId = req.params.pid;
+        const quantityBody = req.body;
+        await cartsService.putQuantityProduct(cartId, productId, quantityBody);
+        return res.status(201).json({
+            status: "success",
+            msg: "quantity edited",
+            data: {}
+        });
+    } catch (error) {
+        return res.status(404).json({
+            status: "error",
+            msg: "quantity not edited",
+            data: {}
+        });
+    }
+});
+
+cartsRoute.put("/:cid", async (req, res) => {
+    try {
+        const cartId = req.params.cid;
+        const productArray = req.body;
+        const cart = await cartsService.putCartProductArray(cartId, productArray);
+        return res.status(201).json({
+            status: "success",
+            msg: "product array added",
+            data: cart
+        });
+    } catch (error) {
+        return res.status(404).json({
+            status: "error",
+            msg: "product array not added",
+            data: {}
+        });
+    }
+});
