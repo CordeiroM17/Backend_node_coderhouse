@@ -1,0 +1,24 @@
+<section class="card-container">
+    {{#each payload}}
+        <div class="card">
+            <img src="{{thumbnail}}" alt="image"/>
+            <div class="card-data">
+                <h2 class="card-title">{{this.title}}</h2>
+                <p class="card-description">{{this.description}}</p>
+                <p class="card-price">Price: ${{this.price}}</p>
+            </div>
+            <button id="{{this.id}}" class="btn-add-to-cart">Add to cart</button>
+        </div>
+    {{/each}}
+</section>
+<section class="pagination">
+    <div>
+        {{#if hasPrevPage}}
+            <a style='text-decoration: none' href='http://localhost:8080/products?page={{prevPage}}'>Prev</a>
+        {{/if}}
+        <p>{{page}}</p>
+        {{#if hasNextPage}}
+            <a style='text-decoration: none' href='http://localhost:8080/products?page={{nextPage}}'>Next</a>
+        {{/if}}
+    </div>
+</section>

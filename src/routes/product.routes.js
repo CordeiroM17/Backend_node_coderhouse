@@ -4,28 +4,28 @@ export const productsRoute = express.Router();
 
 productsRoute.get("/", async (req, res) => {
     try {
-        const allProducts = await productService.getAllProducts();
-        let limit = req.query.limit;
-        if (!limit) {
-            return res.status(200).json({ 
-                status: "success", 
-                msg: "all products",
-                data: allProducts
-            });
-        } else if (limit > 0 && limit <= allProducts.length) {
-            let productsLimit = allProducts.slice(0, limit);
-            return res.status(200).json({
-                status: "success",
-                msg: `first ${limit} products`,
-                data: productsLimit
-            });
-        } else if (limit > allProducts.length) {
-            return res.status(404).json({
-            status: "error",
-            msg: "exceed the limit of products",
-            data: {}
-            });
-        };
+        const { page, limit } = req.query;
+        const products = await productService.getProducts(page, limit);
+        let productsMap = products.docs.map((prod) => {
+            return {
+                id: prod._id,
+                title: prod.title,
+                description: prod.description,
+                thumbnail: prod.thumbnail,
+                code: prod.code,
+                stock: prod.stock
+            };
+        });
+        return res.status(200).json({
+            status: "success", 
+            payload: productsMap,
+            totalPages: products.totalPages,
+            prevPage: products.prevPage,
+            nextPage: products.nextPage,
+            page: products.page,
+            hasPrevPage: products.hasPrevPage,
+            hasNextPage: products.hasNextPage,            
+        })
     } catch (error) {
         console.log(error)
         return res.status(500).json({ 

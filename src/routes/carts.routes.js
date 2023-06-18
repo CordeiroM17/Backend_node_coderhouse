@@ -5,7 +5,8 @@ export const cartsRoute = express.Router();
 cartsRoute.get("/:cid", async (req, res) => {
     try {
         const cartId = req.params.cid;
-        const cart = await cartsService.getCartById(cartId)
+        console.log("entre al get, ID: ",cartId)
+        const cart = await cartsService.getCartById(cartId);
         return res.status(201).json({
             status: "success",
             msg: `cartId: ${cartId}`,
@@ -17,27 +18,63 @@ cartsRoute.get("/:cid", async (req, res) => {
             msg: "something went wrong",
             data: {}
         });
-    }
+    };
 });
 
-cartsRoute.post("/:cid/product/:pid", async (req, res) => {
+cartsRoute.post("/:cid/products/:pid", async (req, res) => {
     try {
         const cartId = req.params.cid;
         const productId = req.params.pid;
-        const productAddToCart = await cartsService.addItemToCart(cartId, productId);
-        const cart = await cartsService.getCartById(cartId)
+        await cartsService.addItemToCart(cartId, productId);
+        const cart = await cartsService.getCartById(cartId);
+        console.log("producto añadido")
         return res.status(201).json({
             status: "success",
             msg: "product added",
             data: cart
-        })
+        });
     } catch (error) {
         return res.status(404).json({
             status: "error",
             msg: "product not added",
             data: {}
-        })
-    }
-    
-    const cart = await cartManager.getCart(cartId);
+        });
+    };
 });
+
+cartsRoute.delete("/:cid/products/:pid", async (req, res) => {
+    try {
+        const cartId = req.params.cid;
+        const productId = req.params.pid;
+        await cartsService.deleteProductFromCart(cartId, productId);
+        return res.status(201).json({
+            status: "success",
+            msg: "product deleted from this cart",
+            data: {}
+        })
+    } catch (error) {
+        return res.status(404).json({
+            status: "error",
+            msg: "product not deleted to the cart",
+            data: {}
+        });
+    };
+});
+
+cartsRoute.delete("/:cid", async (req, res) => {
+    try {
+        const cartId = req.params.cid;
+        await cartsService.deleteAllProductsFromCart(cartId);
+        return res.status(201).json({
+            status: "success",
+            msg: "cart empty",
+            data: {}
+        })
+    } catch (error) {
+        return res.status(404).json({
+            status: "error",
+            msg: "cart not empty",
+            data: {}
+        });
+    }
+})

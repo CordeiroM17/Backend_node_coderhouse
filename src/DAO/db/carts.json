@@ -1,1 +1,6 @@
-[{"idCarrito":1,"productos":[{"idProduct":"1","quantity":1}]},{"idCarrito":5,"productos":[{"idProduct":"1","quantity":1}]},{"idCarrito":"6","productos":[{"idProduct":"1","quantity":3},{"idProduct":"2","quantity":3}]},{"idCarrito":"7","productos":[{"idProduct":"1","quantity":1},{"idProduct":"2","quantity":1},{"idProduct":2,"quantity":1}]},{"idCarrito":8,"productos":[{"idProduct":2,"quantity":2}]}]
+{
+    "productos": [
+    { "idProduct": "647e7dffc7845f429139eb21", "quantity": 3 },
+    { "idProduct": "647e98e6a5fb1b31f277d26a", "quantity": 3 }
+  ]
+}
