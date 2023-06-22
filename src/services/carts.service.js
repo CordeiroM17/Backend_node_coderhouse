@@ -65,7 +65,8 @@ class CartsService {
     }
 
     async getCartById(id) {
-        const cartFound = await CartsModel.findById(id)
+        const cartFound = await CartsModel.findById(id)/* .populate("products.product") */
+        console.log(cartFound);
         return cartFound;
     }
 
