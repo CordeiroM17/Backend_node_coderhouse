@@ -169,3 +169,13 @@ tbody tr td {
     cursor: pointer;
     padding: 8px;
 }
+
+/* Cart */
+
+.product-container {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin: 20px 0;
+    padding: 20px;
+}

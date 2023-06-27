@@ -32,13 +32,15 @@ viewRouter.get("/products", async (req, res) => {
 viewRouter.get("/carts/:cid", async (req, res) => {
     const cartId = req.params.cid;
     const cart = await cartsService.getCartById(cartId);
-
     const productsMap = cart.productos.map((prod) => {
         return {
             id: prod._id.toString(),
+            title: prod.idProduct.title,
+            description: prod.idProduct.description,
+            price: prod.idProduct.price,
             quantity: prod.quantity
         };
     });
-
+    console.log(productsMap)
     return res.status(200).render("carts", {productsMap});
 });
