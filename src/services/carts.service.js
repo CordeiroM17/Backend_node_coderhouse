@@ -64,8 +64,13 @@ class CartsService {
         await CartsModel.updateOne({_id: cartId}, {$pull: {productos:{idProduct: productId}}});
     }
 
+    async createCart() {
+        const newCart = await CartsModel.create({ products: [] });     
+        return newCart;  
+    }
+
     async getCartById(id) {
-        const cartFound = await CartsModel.findById(id)/* .populate("products.product") */
+        const cartFound = await CartsModel.findById(id).populate("productos.idProduct");
         console.log(cartFound);
         return cartFound;
     }

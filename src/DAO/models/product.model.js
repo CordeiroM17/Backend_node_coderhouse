@@ -1,4 +1,3 @@
-//@ts-check
 import { Schema, model } from "mongoose";
 import monsoosePaginate from 'mongoose-paginate-v2';
 

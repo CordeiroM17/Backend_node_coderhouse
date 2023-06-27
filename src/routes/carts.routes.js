@@ -20,6 +20,15 @@ cartsRoute.get("/:cid", async (req, res) => {
     };
 });
 
+cartsRoute.post("/", async (req, res) => {
+    try {
+      const newCart = await cartsService.createCart();
+      res.status(200).send({ status: "success", data: newCart });
+    } catch (error) {
+      res.status(500).send({ status: "error", message: error.message });
+    }
+});
+
 cartsRoute.post("/:cid/products/:pid", async (req, res) => {
     try {
         const cartId = req.params.cid;
