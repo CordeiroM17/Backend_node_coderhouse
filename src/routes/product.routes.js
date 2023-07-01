@@ -1,8 +1,8 @@
 import express from "express";
 import { productService } from "../services/product.service.js";
-export const productsRoute = express.Router();
+export const productsRouter = express.Router();
 
-productsRoute.get("/", async (req, res) => {
+productsRouter.get("/", async (req, res) => {
     try {
         const { page, limit } = req.query;
         const products = await productService.getProducts(page, limit);
@@ -36,7 +36,7 @@ productsRoute.get("/", async (req, res) => {
     };
 });
   
-productsRoute.get("/:pid", async (req, res) => {
+productsRouter.get("/:pid", async (req, res) => {
     try {
         let productId = req.params.pid;
         const productFound = await productService.getProductById(productId);
@@ -54,7 +54,7 @@ productsRoute.get("/:pid", async (req, res) => {
     };
 });
 
-productsRoute.delete("/:id", async (req, res) => {
+productsRouter.delete("/:id", async (req, res) => {
     try {
         const id = req.params.id;
         await productService.deleteProduct(id);
@@ -72,7 +72,7 @@ productsRoute.delete("/:id", async (req, res) => {
     };
 });
 
-productsRoute.post("/", async (req, res) => {
+productsRouter.post("/", async (req, res) => {
     try {
         const productToCreate = req.body;
         const productCreated = await productService.createProduct(productToCreate);
@@ -90,7 +90,7 @@ productsRoute.post("/", async (req, res) => {
     };
 });
 
-productsRoute.put("/:id", async (req, res) => {
+productsRouter.put("/:id", async (req, res) => {
     try {
         const id = req.params.id;
         const newProduct = req.body;

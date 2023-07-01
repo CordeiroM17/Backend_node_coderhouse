@@ -1,8 +1,8 @@
 import express from "express";
 import { cartsService } from "../services/carts.service.js";
-export const cartsRoute = express.Router();
+export const cartsRouter = express.Router();
 
-cartsRoute.get("/:cid", async (req, res) => {
+cartsRouter.get("/:cid", async (req, res) => {
     try {
         const cartId = req.params.cid;
         const cart = await cartsService.getCartById(cartId);
@@ -20,7 +20,7 @@ cartsRoute.get("/:cid", async (req, res) => {
     };
 });
 
-cartsRoute.post("/", async (req, res) => {
+cartsRouter.post("/", async (req, res) => {
     try {
       const newCart = await cartsService.createCart();
       res.status(200).send({ status: "success", data: newCart });
@@ -29,7 +29,7 @@ cartsRoute.post("/", async (req, res) => {
     }
 });
 
-cartsRoute.post("/:cid/products/:pid", async (req, res) => {
+cartsRouter.post("/:cid/products/:pid", async (req, res) => {
     try {
         const cartId = req.params.cid;
         const productId = req.params.pid;
@@ -50,7 +50,7 @@ cartsRoute.post("/:cid/products/:pid", async (req, res) => {
     };
 });
 
-cartsRoute.delete("/:cid/products/:pid", async (req, res) => {
+cartsRouter.delete("/:cid/products/:pid", async (req, res) => {
     try {
         const cartId = req.params.cid;
         const productId = req.params.pid;
@@ -69,7 +69,7 @@ cartsRoute.delete("/:cid/products/:pid", async (req, res) => {
     };
 });
 
-cartsRoute.delete("/:cid", async (req, res) => {
+cartsRouter.delete("/:cid", async (req, res) => {
     try {
         const cartId = req.params.cid;
         await cartsService.deleteAllProductsFromCart(cartId);
@@ -88,7 +88,7 @@ cartsRoute.delete("/:cid", async (req, res) => {
 })
 
 
-cartsRoute.put("/:cid/products/:pid", async (req, res) => {
+cartsRouter.put("/:cid/products/:pid", async (req, res) => {
     try {
         const cartId = req.params.cid;
         const productId = req.params.pid;
@@ -108,7 +108,7 @@ cartsRoute.put("/:cid/products/:pid", async (req, res) => {
     }
 });
 
-cartsRoute.put("/:cid", async (req, res) => {
+cartsRouter.put("/:cid", async (req, res) => {
     try {
         const cartId = req.params.cid;
         const productArray = req.body;

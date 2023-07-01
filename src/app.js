@@ -2,12 +2,16 @@ import express from "express";
 import handlebars from "express-handlebars";
 import { Server } from "socket.io";
 import { productManager } from "./manager/productManager.js";
-import { cartsRoute } from "./routes/carts.routes.js";
-import { productsRoute } from "./routes/product.routes.js";
+import { cartsRouter } from "./routes/carts.routes.js";
+import { productsRouter } from "./routes/product.routes.js";
 import { realTimeProducts } from "./routes/real-time-products.routes.js";
 import { __dirname } from "./dirname.js";
 import { connectMongo } from "./utils/connections.js"
-import { viewRouter } from "./routes/views.routes.js";
+import { viewsRouter } from "./routes/views.routes.js";
+import { loginRouter } from "./routes/login.routes.js";
+import cookieParser from 'cookie-parser';
+import session from "express-session";
+import MongoStore from "connect-mongo";
 const app = express();
 const port = 8080;
 
@@ -15,6 +19,15 @@ connectMongo();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+
+app.use(
+  session({
+    store: MongoStore.create({ mongoUrl: 'mongodb+srv://cordeiromariano17:ktAuPli2vRqq5Xcl@coder-cluster.w5gmkui.mongodb.net/ecommerce?retryWrites=true&w=majority', ttl: 86400 * 7 }),
+    resave: true,
+    saveUninitialized: true,
+  })
+);
 
 // CONFIGURACION DEL MOTORO DE HANDLEBARS
 app.engine("handlebars", handlebars.engine());
@@ -24,18 +37,12 @@ app.set("view engine", "handlebars");
 //archivos publicos
 app.use(express.static(__dirname + "/public"));
 
-app.get("/", async (req, res) => {
-  const allProducts = await productManager.getProducts();
-  res.render("home", {allProducts})
-});
+app.use("/api/products", productsRouter);
+app.use("/api/carts", cartsRouter);
+app.use("/api/session", loginRouter);
 
-/* ENDPOINTS */
-app.use("/api/products", productsRoute);
-app.use("/api/carts", cartsRoute);
-app.use("/", viewRouter)
-
-/* VISTA SOCKET */
 app.use("/realtimeproducts", realTimeProducts)
+app.use("/", viewsRouter);
 
 app.get("*", (req, res) => {
   return res.status(404).json({
