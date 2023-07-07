@@ -1,4 +1,4 @@
-<form action="/api/session/login" method="POST">
+<form action="/auth/login" method="POST">
 
     <label>Email</label>
     <input id="email" name="email" type="email" placeholder="Email"/>
@@ -9,5 +9,9 @@
     <input type="submit" value="login">
 </form>
 <div>
-    <a href="/register">Ir a register</a>
+    <a href="/auth/register">Ir a register</a>
+</div>
+<div>
+    <h1>Login github</h1>
+    <a href='/api/sessions/github'>Entrar con github</a>
 </div>
