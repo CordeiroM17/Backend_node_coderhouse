@@ -1,8 +1,9 @@
 import passport from 'passport';
 import local from 'passport-local';
-import { createHash, isValidPassword } from '../utils/validations.js';
+import { createHash, isValidPassword } from './bcrypt.js';
 import { UserModel } from '../DAO/models/users.model.js';
 import GitHubStrategy from 'passport-github2';
+import { entorno } from '../dirname.js';
 const LocalStrategy = local.Strategy;
 
 export function iniPassport() {
@@ -36,7 +37,7 @@ export function iniPassport() {
       },
       async (req, username, password, done) => {
         try {
-          const { email, firstName, lastName } = req.body;
+          const { firstName, lastName, age } = req.body;
           let user = await UserModel.findOne({ email: username });
           if (user) {
             console.log('User already exists');
@@ -44,13 +45,14 @@ export function iniPassport() {
           }
 
           const newUser = {
-            email,
+            email: username,
             firstName,
             lastName,
-            isAdmin: false,
+            rol: 'user',
             password: createHash(password),
           };
           let userCreated = await UserModel.create(newUser);
+
           console.log(userCreated);
           console.log('User Registration succesful');
           return done(null, userCreated);
@@ -67,12 +69,12 @@ export function iniPassport() {
     'github',
     new GitHubStrategy(
       {
-        clientID: "",
-        clientSecret: "",
-        callbackURL: "http://localhost:8080/api/sessions/githubcallback"
+        clientID: entorno.GITHUB_PASSPORT_CLIENT_ID,
+        clientSecret: entorno.GITHUB_PASSPORT_CLIENT_SECRET,
+        callbackURL: entorno.GITHUB_PASSPORT_CALLBACK_URL,
       },
       async (accesToken, _, profile, done) => {
-        console.log(profile)
+        console.log(profile);
         try {
           const res = await fetch('https://api.github.com/user/emails', {
             headers: {
@@ -95,7 +97,7 @@ export function iniPassport() {
               email: profile.email,
               firstName: profile._json.name || profile._json.login || 'noname',
               lastName: 'nolast',
-              isAdmin: false,
+              rol: false,
               password: 'nopass',
             };
             let userCreated = await UserModel.create(newUser);

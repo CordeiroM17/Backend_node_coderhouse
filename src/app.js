@@ -8,25 +8,33 @@ import { viewsRouter } from './routes/views.routes.js';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
-import { iniPassport } from './config/passport.config.js';
+import { iniPassport } from './utils/passport.js';
 import passport from 'passport';
-import { authRouter } from './routes/auth.routes.js';
+import {  userRouter } from './routes/users.routes.js';
 import { sessionsRouter } from './routes/sessions.routes.js';
+import { entorno } from './dirname.js';
 const app = express();
-const port = 8080;
+
+console.log(entorno);
 
 connectMongo();
 
+// MIDDLEWARES
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static(__dirname + '/public'));
 app.use(cookieParser());
 
 app.use(
   session({
-    store: MongoStore.create({ mongoUrl: 'mongodb+srv://cordeiromariano17:ktAuPli2vRqq5Xcl@coder-cluster.w5gmkui.mongodb.net/ecommerce?retryWrites=true&w=majority', ttl: 86400 * 7 }),
     secret: 'super secret key',
-    resave: true,
-    saveUninitialized: true,
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({
+      mongoUrl: entorno.MONGO_URL,
+      mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
+      ttl: 100000,
+    }),
   })
 );
 
@@ -34,18 +42,17 @@ iniPassport();
 app.use(passport.initialize());
 app.use(passport.session());
 
-// CONFIGURACION DEL MOTORO DE HANDLEBARS
+// CONFIGURACION DEL MOTOR DE HANDLEBARS
 app.engine('handlebars', handlebars.engine());
 app.set('views', __dirname + '/views');
 app.set('view engine', 'handlebars');
 
-//archivos publicos
-app.use(express.static(__dirname + '/public'));
+// ENDPOINTS
+app.use('/api/products', productsRouter);   //ready
+app.use('/api/carts', cartsRouter);         //ready
+app.use('/api/sessions', sessionsRouter);   //ready
+app.use('/auth', userRouter);               //ready
 
-app.use('/api/products', productsRouter);
-app.use('/api/carts', cartsRouter);
-app.use('/api/sessions', sessionsRouter);
-app.use('/auth', authRouter);
 app.use('/', viewsRouter);
 
 app.get('*', (req, res) => {
@@ -56,6 +63,6 @@ app.get('*', (req, res) => {
   });
 });
 
-app.listen(port, () => {
-  console.log(`Server running on port http://localhost:${port}`);
+app.listen(entorno.PORT, () => {
+  console.log(`Server running on port http://localhost:${entorno.PORT}`);
 });

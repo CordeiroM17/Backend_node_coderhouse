@@ -1,5 +1,5 @@
 import { UserModel } from '../DAO/models/users.model.js';
-import { createHash, isValidPassword } from '../utils/validations.js';
+import { createHash, isValidPassword } from '../utils/bcrypt.js';
 
 class UsersService {
   registerFieldsComprobation(fields) {
@@ -19,7 +19,7 @@ class UsersService {
   async registerNewUser(fields) {
     this.registerFieldsComprobation(fields);
     const { firstName, lastName, email, age, password } = fields;
-    return await UserModel.create({ firstName, lastName, email, age, password: createHash(password) , admin: false });
+    return await UserModel.create({ firstName, lastName, email, age, password: createHash(password), rol: 'user' });
   }
 
   async loginUser(fields) {
@@ -28,6 +28,8 @@ class UsersService {
     const foundUser = await UserModel.findOne({ email });
     if (foundUser && isValidPassword(password, foundUser.password)) {
       return foundUser;
+    } else {
+      return false;
     }
   }
 }

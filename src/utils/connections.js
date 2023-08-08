@@ -1,7 +1,8 @@
 import { connect } from 'mongoose';
+import { entorno } from '../dirname.js';
 export async function connectMongo() {
   try {
-    await connect('mongodb+srv://cordeiromariano17:ktAuPli2vRqq5Xcl@coder-cluster.w5gmkui.mongodb.net/ecommerce?retryWrites=true&w=majority');
+    await connect(entorno.MONGO_URL);
     console.log('plug to mongo!');
   } catch (e) {
     console.log(e);

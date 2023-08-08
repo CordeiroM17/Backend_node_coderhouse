@@ -9,8 +9,7 @@
     --text-200:#5c5c5c;
     --bg-100:#F5F5DC;
     --bg-200:#ebebd2;
-    --bg-300:#c2c2aa;
-      
+    --bg-300:#c2c2aa; 
 }
 
 * {
@@ -29,13 +28,13 @@
 input {
     height: 30px;
     border-radius: 10px;
-    border: 3px solid var(--bg-300);
+    border: 2px solid var(--bg-300);
     outline: none;
     padding: 5px;
 }
 
 input:focus {
-    border: 3px solid var(--primary-200);
+    border: 2px solid var(--primary-200);
 }
 
 /* New product form */
@@ -78,6 +77,7 @@ input:focus {
 }
 
 /* Product table */
+
 .table-container {
     display: flex;
     flex-direction: column;
@@ -117,7 +117,33 @@ tbody tr td {
     border-radius: 10px;
 }
 
-.card-container {
+.profile__container {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.profile__btn--logout, .profile__btn--secret {
+    text-decoration: none;
+    padding: 10px;
+    border-radius: 25px;
+    color: var(--bg-100);
+
+}
+
+.profile__btn--logout {
+    background-color: var(--delete);
+    margin-right: 20px;
+}
+
+.profile__btn--secret {
+    background-color: var(--primary-300);
+}
+
+.card__container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 32px;
@@ -126,7 +152,7 @@ tbody tr td {
     align-items: center;
 }
 
-.card-container > .card {
+.card__container > .card {
     justify-self: center;
     border-radius: 8px;
     width: 200px;
@@ -137,30 +163,43 @@ tbody tr td {
     justify-content: space-between;
 }
 
-.card-data {
+.card__data {
     text-align: center;
     margin: 8px 0;
 }
 
-.card-title {
+.card__title {
     text-transform: uppercase;
     margin-bottom: 5px;
     font-size: 18px;
 }
 
-.pagination {
-    margin: 0;
+.pagination__container {
+    width: 100%;
     display: flex;
     justify-content: center;
     margin-bottom: 32px;
 }
 
-.pagination div {
+.pagination__btn {
     display: flex;
     gap: 32px;
 }
 
-.btn-add-to-cart {
+.pagination__btn p, .pagination__btn a {
+    border: 1px solid var(--text-100);
+    border-radius: 25px;
+    text-decoration: none;
+    padding: 10px;
+    text-align: center;
+}
+
+.pagination__btn p {
+    background-color: var(--text-100);
+    color: var(--bg-100);
+}
+
+.btn__add__to__cart {
     background: #333333;
     color: white;
     border: none;
@@ -178,4 +217,119 @@ tbody tr td {
     justify-content: space-between;
     margin: 20px 0;
     padding: 20px;
+}
+
+/* Home */
+
+.main__home {
+    height: 100%; width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.home__btn__container {
+    padding: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.home__btn {
+    background-color: var(--primary-300);
+    text-decoration: none;
+    color: var(--bg-100);
+    border-radius: 25px;
+    text-align: center;
+    padding: 10px;
+    width: 100px;
+}
+
+/* Log in and Sign up */
+
+.main__register {
+    height: 100%; width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.form__title {
+    margin: 10px 0;
+}
+
+.form__container {
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+.form__github__container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+}
+
+.form__github__container__btn {
+    width: 100%;
+    text-align: center;
+    border: 2px solid var(--bg-300);
+    border-radius: 25px;
+    padding: 5px;
+    text-decoration: none;
+    color: var(--text-100);
+}
+
+.form__register {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 10px 0 0 0;
+}
+
+.form__register__label {
+    color: var(--text-100);
+    margin: 10px 0 0 0;
+}
+
+.form__submit {
+    margin: 20px 0;
+    cursor: pointer;
+    background: var(--primary-300);
+    border: none;
+    color: var(--bg-200);
+}
+
+.form__register__footer {
+    width: 100%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+.form__register__footer a {
+    color: var(--primary-300);
+    padding-left: 5px;
+}
+
+.form__register__name {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.name__container--short {
+    padding-right: 10px;
+}
+
+.name__container input {
+    width: 100%;
 }

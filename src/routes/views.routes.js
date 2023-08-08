@@ -5,20 +5,11 @@ import { checkAdmin, checkUser } from '../middleware/auth.js';
 export const viewsRouter = express.Router();
 
 viewsRouter.get('/', (req, res) => {
-  return res.status(200).render('loginForm');
+  return res.status(200).render('home');
 });
 
 viewsRouter.get('/register', (req, res) => {
   return res.status(200).render('registerForm');
-});
-
-viewsRouter.get('/logout', (req, res) => {
-  req.session.destroy((err) => {
-    if (err) {
-      return res.render('errorPage', { msg: 'no se pudo deslogear' });
-    }
-    return res.redirect('/');
-  });
 });
 
 viewsRouter.get('/products', checkUser, async (req, res) => {
@@ -39,8 +30,8 @@ viewsRouter.get('/products', checkUser, async (req, res) => {
     return res.status(200).render('products', {
       status: 'success',
       payload: productsMap,
-      firstName: req.session.firstName,
-      admin: req.session.admin,
+      firstName: req.session.user?.firstName,
+      rol: req.session.user?.rol,
       totalPages: products.totalPages,
       prevPage: products.prevPage,
       nextPage: products.nextPage,
@@ -74,6 +65,6 @@ viewsRouter.get('/carts/:cid', checkUser, async (req, res) => {
   }
 });
 
-viewsRouter.get('/solo-para-admin', checkAdmin, (req, res) => {
+viewsRouter.get('/administracion', checkAdmin, (req, res) => {
   res.send('esto solo lo puede ver el admin');
 });

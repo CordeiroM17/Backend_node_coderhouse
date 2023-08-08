@@ -1,17 +1,25 @@
-<form action="/auth/login" method="POST">
+<main class="main__register">
+    <div class="form__container">
+        <h1 class="form__title">Log in</h1>
+    
+        <div class="form__github__container">
+            <a class="form__github__container__btn" href='/api/sessions/github'>Log in with Github</a>
+        </div>
 
-    <label>Email</label>
-    <input id="email" name="email" type="email" placeholder="Email"/>
+        <form class="form__register" action="/auth/login" method="POST">
 
-    <label>Password</label>
-    <input id="password" name="password" type="password" placeholder="Password"/>
+            <label class="form__register__label">Email</label>
+            <input id="email" name="email" type="email"/>
 
-    <input type="submit" value="login">
-</form>
-<div>
-    <a href="/auth/register">Ir a register</a>
-</div>
-<div>
-    <h1>Login github</h1>
-    <a href='/api/sessions/github'>Entrar con github</a>
-</div>
+            <label class="form__register__label">Password</label>
+            <input id="password" name="password" type="password"/>
+
+            <input class="form__submit" type="submit" value="login">
+        </form>
+        <div class="form__register__footer">
+            <p>Don't have an account?</p>
+            <a href="/auth/register">Sign Up</a>
+        </div>
+    </div>
+
+</main>
