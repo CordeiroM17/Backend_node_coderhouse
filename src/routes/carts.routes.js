@@ -4,6 +4,8 @@ export const cartsRouter = express.Router();
 
 cartsRouter.get('/:cid', cartsController.showOneCart);
 
+cartsRouter.post('/:cid/purchase', cartsController.purchase);
+
 cartsRouter.post('/', cartsController.createOneCart);
 
 cartsRouter.post('/:cid/products/:pid', cartsController.addProductToCart);

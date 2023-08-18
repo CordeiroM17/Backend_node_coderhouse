@@ -27,6 +27,7 @@ class ProductService {
     const productEdited = await products.editProduct(id, title, description, price, thubmail, code, stock)
     return productEdited;
   }
+
 }
 
 export const productService = new ProductService();

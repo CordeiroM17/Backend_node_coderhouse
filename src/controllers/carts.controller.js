@@ -1,6 +1,23 @@
 import { cartsService } from '../services/carts.service.js';
 
 export const cartsController = {
+  purchase: async function (req, res) {
+    try {
+      const cartId = req.params.cid;
+      const ticket = await cartsService.purchase(cartId);
+      return res.status(201).json({
+        status: 'success',
+        msg: 'this is your ticket',
+        data: ticket,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        status: 'error',
+        msg: 'something went wrong',
+        data: {},
+      });
+    }
+  },
   showOneCart: async function (req, res) {
     try {
       const cartId = req.params.cid;

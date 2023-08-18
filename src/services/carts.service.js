@@ -1,5 +1,6 @@
 import { productService } from './products.service.js';
 import { carts } from '../DAO/factory.js';
+import { ticketsService } from './tickets.service.js';
 
 class CartsService {
   productExistValidation(product) {
@@ -12,6 +13,21 @@ class CartsService {
     if (!cart) {
       throw new Error('cart not found');
     }
+  }
+
+  async purchase(cartId) {
+    // encontrar el carro
+    const cartFound = await this.getCartById(cartId);
+    this.cartExistValidation(cartFound);
+    
+    // revisar que productos tienen stock y cuales no, restar el stock de los productos
+    productService.consultarStock()
+    // solo agregar los que tengan stock
+
+    // enviar el ticket de compra y borrar el carrito, si no compro todo borra las partes que compro
+    this.borrarCarro() || this.descontrarStockDelCarro()
+    // en caso de existir una compra no completada totalmente, devolver el arreglo de los ids de los productos que no pudieron procesarse
+    ticketsService.createTicket()
   }
 
   async putQuantityProduct(cartId, productId, quantityBody) {
