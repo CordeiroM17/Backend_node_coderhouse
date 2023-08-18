@@ -1,5 +1,5 @@
 import express from 'express';
-import { cartsController } from '../controllers/cart.controller.js';
+import { cartsController } from '../controllers/carts.controller.js';
 export const cartsRouter = express.Router();
 
 cartsRouter.get('/:cid', cartsController.showOneCart);

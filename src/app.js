@@ -13,11 +13,12 @@ import passport from 'passport';
 import { userRouter } from './routes/users.routes.js';
 import { sessionsRouter } from './routes/sessions.routes.js';
 import { entorno } from './dirname.js';
+import { factory } from './DAO/factory.js';
 const app = express();
 
 console.log(entorno);
 
-connectMongo();
+factory();
 
 // MIDDLEWARES
 app.use(express.json());

@@ -1,5 +1,5 @@
-import { CartsModel } from '../DAO/mongo/models/carts.model.js';
 import { productService } from './products.service.js';
+import { carts } from '../DAO/factory.js';
 
 class CartsService {
   productExistValidation(product) {
@@ -21,18 +21,13 @@ class CartsService {
 
     // Busca y comprueba si existe el producto
     const productToEdit = await productService.getProductById(productId);
-    this.productExistValidation(productToEdit);  
+    this.productExistValidation(productToEdit);
 
     console.log('verifique que el producto y el carrito existen');
 
     const { quantity } = quantityBody;
 
-    await CartsModel.findOneAndUpdate(
-      { _id: cartId, 'productos.idProduct': productToEdit._id },
-      {
-        $set: { 'productos.$.quantity': quantity },
-      }
-    );
+    await carts.updateOne(quantity, cartId, productToEdit);
   }
 
   async putCartProductArray(cartId, productArray) {
@@ -43,12 +38,12 @@ class CartsService {
       };
     });
 
-    const cart = await CartsModel.findByIdAndUpdate({ _id: cartId }, { productos: newProductArray });
+    const cart = await carts.putArrayInCart(cartId, newProductArray);
     return cart;
   }
 
   async deleteAllProductsFromCart(cartId) {
-    await CartsModel.findByIdAndUpdate(cartId, { productos: [] });
+    await carts.deleteAllProducts(cartId);
   }
 
   async deleteProductFromCart(cartId, productId) {
@@ -56,21 +51,20 @@ class CartsService {
     const cartFound = await this.getCartById(cartId);
     this.cartExistValidation(cartFound);
 
-    // Busca y comptueba si existe el producto
+    // Busca y comprueba si existe el producto
     const productToDelete = await productService.getProductById(productId);
     this.productExistValidation(productToDelete);
 
-    await CartsModel.updateOne({ _id: cartId }, { $pull: { productos: { idProduct: productId } } });
+    await carts.deleteOneProductFormCart(cartId, productId);
   }
 
   async createCart() {
-    const newCart = await CartsModel.create({ products: [] });
+    const newCart = await carts.createCart();
     return newCart;
   }
 
   async getCartById(id) {
-    const cartFound = await CartsModel.findById(id).populate('productos.idProduct');
-    console.log(cartFound);
+    const cartFound = await carts.getCartById(id);
     return cartFound;
   }
 
@@ -79,17 +73,10 @@ class CartsService {
 
     this.productExistValidation(productToAdd);
 
-    const cartFound = await CartsModel.findOneAndUpdate(
-      { _id: cartId, 'productos.idProduct': productToAdd._id },
-      {
-        $inc: { 'productos.$.quantity': 1 },
-      }
-    );
+    const cartFound = carts.incAmountProductToCart(cartId, productToAdd)
 
     if (!cartFound) {
-      await CartsModel.findByIdAndUpdate(cartId, {
-        $push: { productos: { idProduct: productToAdd._id, quantity: 1 } },
-      });
+      carts.addProductToCart(cartId, productToAdd)
     }
     console.log('product añadido');
   }

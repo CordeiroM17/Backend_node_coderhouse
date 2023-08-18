@@ -1,5 +1,5 @@
-import { UserModel } from '../DAO/models/users.model.js';
-import { createHash, isValidPassword } from '../utils/bcrypt.js';
+import { users } from '../DAO/factory.js';
+import { isValidPassword } from '../utils/bcrypt.js';
 
 class UsersService {
   registerFieldsComprobation(fields) {
@@ -19,13 +19,13 @@ class UsersService {
   async registerNewUser(fields) {
     this.registerFieldsComprobation(fields);
     const { firstName, lastName, email, age, password } = fields;
-    return await UserModel.create({ firstName, lastName, email, age, password: createHash(password), rol: 'user' });
+    return await users.createUser(firstName, lastName, email, age, password)
   }
 
   async loginUser(fields) {
     this.loginFieldsComprobation(fields);
     const { email, password } = fields;
-    const foundUser = await UserModel.findOne({ email });
+    const foundUser = await users.findUser(email)
     if (foundUser && isValidPassword(password, foundUser.password)) {
       return foundUser;
     } else {
