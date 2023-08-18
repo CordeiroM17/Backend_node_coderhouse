@@ -1,4 +1,4 @@
-import { productService } from '../services/product.service.js';
+import { productService } from '../services/products.service.js';
 
 export const productsController = {
   getAllProducts: async function (req, res) {
@@ -55,8 +55,8 @@ export const productsController = {
 
   deleteOneProduct: async function (req, res) {
     try {
-      const id = req.params.id;
-      await productService.deleteProduct(id);
+      const pid = req.params.pid;
+      await productService.deleteProduct(pid);
       return res.status(200).json({
         status: 'success',
         msg: 'product deleted',
@@ -91,9 +91,9 @@ export const productsController = {
 
   updateOneProduct: async function (req, res) {
     try {
-        const id = req.params.id;
+        const pid = req.params.pid;
         const newProduct = req.body;
-        await productService.putProduct(id, newProduct);
+        await productService.putProduct(pid, newProduct);
         return res.status(201).json({
           status: 'success',
           msg: 'successfully modified product',

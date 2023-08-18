@@ -1,7 +1,7 @@
 import express from 'express';
 import handlebars from 'express-handlebars';
 import { cartsRouter } from './routes/carts.routes.js';
-import { productsRouter } from './routes/product.routes.js';
+import { productsRouter } from './routes/products.routes.js';
 import { __dirname } from './dirname.js';
 import { connectMongo } from './utils/connections.js';
 import { viewsRouter } from './routes/views.routes.js';
@@ -10,7 +10,7 @@ import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import { iniPassport } from './utils/passport.js';
 import passport from 'passport';
-import {  userRouter } from './routes/users.routes.js';
+import { userRouter } from './routes/users.routes.js';
 import { sessionsRouter } from './routes/sessions.routes.js';
 import { entorno } from './dirname.js';
 const app = express();
@@ -48,11 +48,10 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'handlebars');
 
 // ENDPOINTS
-app.use('/api/products', productsRouter);   //ready
-app.use('/api/carts', cartsRouter);         //ready
-app.use('/api/sessions', sessionsRouter);   //ready
-app.use('/auth', userRouter);               //ready
-
+app.use('/api/products', productsRouter);
+app.use('/api/carts', cartsRouter);
+app.use('/api/sessions', sessionsRouter);
+app.use('/auth', userRouter);
 app.use('/', viewsRouter);
 
 app.get('*', (req, res) => {

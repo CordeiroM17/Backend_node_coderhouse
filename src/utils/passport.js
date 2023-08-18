@@ -1,7 +1,7 @@
 import passport from 'passport';
 import local from 'passport-local';
 import { createHash, isValidPassword } from './bcrypt.js';
-import { UserModel } from '../DAO/models/users.model.js';
+import { UserModel } from '../DAO/mongo/models/users.model.js';
 import GitHubStrategy from 'passport-github2';
 import { entorno } from '../dirname.js';
 const LocalStrategy = local.Strategy;

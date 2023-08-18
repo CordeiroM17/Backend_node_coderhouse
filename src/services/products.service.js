@@ -1,4 +1,4 @@
-import { ProductModel } from '../DAO/models/product.model.js';
+import { ProductModel } from '../DAO/mongo/models/product.model.js';
 
 class ProductService {
   async getProducts(page, limit) {

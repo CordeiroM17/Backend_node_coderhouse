@@ -18,6 +18,7 @@ dotenv.config({
   path: process.argv[2] === 'DEV' ? './.env.development' : './.env.production',
 });
 
+entorno.PERSISTENCE = process.env.PERSISTENCE;
 entorno.PORT = process.env.PORT;
 entorno.MONGO_URL = process.env.MONGO_URL;
 entorno.GITHUB_PASSPORT_CLIENT_ID = process.env.GITHUB_PASSPORT_CLIENT_ID;

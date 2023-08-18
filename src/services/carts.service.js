@@ -1,5 +1,5 @@
-import { CartsModel } from '../DAO/models/carts.model.js';
-import { productService } from './product.service.js';
+import { CartsModel } from '../DAO/mongo/models/carts.model.js';
+import { productService } from './products.service.js';
 
 class CartsService {
   productExistValidation(product) {
@@ -19,9 +19,9 @@ class CartsService {
     const cartFound = await this.getCartById(cartId);
     this.cartExistValidation(cartFound);
 
-    // Busca y comptueba si existe el producto
+    // Busca y comprueba si existe el producto
     const productToEdit = await productService.getProductById(productId);
-    this.productExistValidation(productToEdit);
+    this.productExistValidation(productToEdit);  
 
     console.log('verifique que el producto y el carrito existen');
 
