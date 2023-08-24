@@ -55,7 +55,6 @@ socket.on('products', (products) => {
   }
 });
 
-// Delete product and delete in table
 let btnDelete = document.querySelectorAll('.btn-delete');
 
 function setDelete(btnDelete) {

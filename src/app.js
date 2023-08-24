@@ -3,7 +3,6 @@ import handlebars from 'express-handlebars';
 import { cartsRouter } from './routes/carts.routes.js';
 import { productsRouter } from './routes/products.routes.js';
 import { __dirname } from './dirname.js';
-import { connectMongo } from './utils/connections.js';
 import { viewsRouter } from './routes/views.routes.js';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
@@ -14,6 +13,7 @@ import { userRouter } from './routes/users.routes.js';
 import { sessionsRouter } from './routes/sessions.routes.js';
 import { entorno } from './dirname.js';
 import { factory } from './DAO/factory.js';
+
 const app = express();
 
 console.log(entorno);

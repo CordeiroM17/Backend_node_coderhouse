@@ -25,7 +25,7 @@ class UsersService {
   async loginUser(fields) {
     this.loginFieldsComprobation(fields);
     const { email, password } = fields;
-    const foundUser = await users.findUser(email)
+    const foundUser = await users.findUserByEmail(email)
     if (foundUser && isValidPassword(password, foundUser.password)) {
       return foundUser;
     } else {

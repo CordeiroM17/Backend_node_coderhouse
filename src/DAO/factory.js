@@ -4,6 +4,7 @@ import { connectMongo } from '../utils/connections.js';
 export let carts;
 export let products;
 export let users;
+export let tickets;
 
 export async function factory() {
   switch (entorno.PERSISTENCE) {
@@ -13,18 +14,22 @@ export async function factory() {
       const { default: CartsMongo } = await import('./mongo/carts.mongo.js');
       const { default: ProductsMongo } = await import('./mongo/products.mongo.js');
       const { default: UsersMongo } = await import('./mongo/users.mongo.js');
+      const { default: TicketsMongo } = await import('./mongo/tickets.mongo.js');
 
       const Carts = CartsMongo;
       const Products = ProductsMongo;
       const Users = UsersMongo;
+      const Tickets = TicketsMongo;
 
       carts = new Carts();
       products = new Products();
       users = new Users();
+      tickets = new Tickets();
 
       console.log(Carts);
       console.log(Products);
       console.log(Users);
+      console.log(Tickets);
 
       break;
     case 'MEMORY':

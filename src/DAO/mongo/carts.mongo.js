@@ -8,7 +8,7 @@ export default class Carts {
   };
 
   getCartById = async (id) => {
-    await CartsModel.findById(id).populate('productos.idProduct');
+    return await CartsModel.findById(id).populate('productos.idProduct');
   };
 
   updateQuantity = async (quantity, cartId, productToEdit) => {
@@ -21,7 +21,11 @@ export default class Carts {
   };
 
   putArrayInCart = async (cartId, newProductArray) => {
-    await CartsModel.findByIdAndUpdate({ _id: cartId }, { productos: newProductArray });
+    return await CartsModel.findByIdAndUpdate({ _id: cartId }, { productos: newProductArray });
+  };
+
+  findProductInCart = async (cartId, productId) => {
+    return await CartsModel.findOne({ _id: cartId, 'productos.idProduct': productId });
   };
 
   incAmountProductToCart = async (cartId, productToAdd) => {

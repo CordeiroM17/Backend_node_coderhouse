@@ -8,7 +8,11 @@ export default class Users {
         return await UserModel.create({ firstName, lastName, email, age, password: createHash(password), rol: 'user' });
     }
 
-    findUser = async (email) => {
+    findUserByEmail = async (email) => {
         return await UserModel.findOne({ email });
+    }
+
+    findUserByCart = async (cartId) => {
+        return await UserModel.findOne({cart: cartId });
     }
 }

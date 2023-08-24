@@ -16,26 +16,21 @@ class CartsService {
   }
 
   async purchase(cartId) {
-    // encontrar el carro
     const cartFound = await this.getCartById(cartId);
     this.cartExistValidation(cartFound);
-    
-    // revisar que productos tienen stock y cuales no, restar el stock de los productos
-    productService.consultarStock()
-    // solo agregar los que tengan stock
 
-    // enviar el ticket de compra y borrar el carrito, si no compro todo borra las partes que compro
-    this.borrarCarro() || this.descontrarStockDelCarro()
-    // en caso de existir una compra no completada totalmente, devolver el arreglo de los ids de los productos que no pudieron procesarse
-    ticketsService.createTicket()
+    const cartProductArray = cartFound.productos;
+    const productsToAddNewArray = await productService.consultStock(cartProductArray, cartId);
+
+    console.log('ya consulte el stock');
+
+    await ticketsService.createTicket(cartId, productsToAddNewArray);
   }
 
   async putQuantityProduct(cartId, productId, quantityBody) {
-    // Busca y comprueba si exite el carrito
     const cartFound = await this.getCartById(cartId);
     this.cartExistValidation(cartFound);
 
-    // Busca y comprueba si existe el producto
     const productToEdit = await productService.getProductById(productId);
     this.productExistValidation(productToEdit);
 
@@ -47,7 +42,11 @@ class CartsService {
   }
 
   async putCartProductArray(cartId, productArray) {
-    let newProductArray = productArray.productos.map((prod) => {
+    if (!Array.isArray(productArray)) {
+      const { productos } = productArray;
+      productArray = productos;
+    }
+    let newProductArray = productArray.map((prod) => {
       return {
         idProduct: prod.idProduct,
         quantity: prod.quantity,
@@ -63,11 +62,9 @@ class CartsService {
   }
 
   async deleteProductFromCart(cartId, productId) {
-    // Busca y comprueba si exite el carrito
     const cartFound = await this.getCartById(cartId);
     this.cartExistValidation(cartFound);
 
-    // Busca y comprueba si existe el producto
     const productToDelete = await productService.getProductById(productId);
     this.productExistValidation(productToDelete);
 
@@ -84,17 +81,22 @@ class CartsService {
     return cartFound;
   }
 
+  async foundProductInCart(cartId, productId) {
+    return await carts.findProductInCart(cartId, productId);
+  }
+
   async addItemToCart(cartId, productId) {
     const productToAdd = await productService.getProductById(productId);
 
     this.productExistValidation(productToAdd);
 
-    const cartFound = carts.incAmountProductToCart(cartId, productToAdd)
+    const productFoundInCart = await this.foundProductInCart(cartId, productId);
 
-    if (!cartFound) {
-      carts.addProductToCart(cartId, productToAdd)
+    if (productFoundInCart) {
+      await carts.incAmountProductToCart(cartId, productToAdd);
+    } else {
+      await carts.addProductToCart(cartId, productToAdd);
     }
-    console.log('product añadido');
   }
 }
 
