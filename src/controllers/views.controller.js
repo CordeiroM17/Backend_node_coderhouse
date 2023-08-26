@@ -1,4 +1,7 @@
+import CustomError from '../services/errors/customError.js';
+import EErros from '../services/errors/enums.js';
 import { productService } from '../services/products.service.js';
+import { generateProduct } from '../utils/generateFakeProduct.js';
 
 export const viewController = {
   getHomePage: async function (req, res) {
@@ -68,5 +71,24 @@ export const viewController = {
   },
   admin: async function (req, res) {
     res.send('esto solo lo puede ver el admin');
+  },
+
+  getHundredProducts: async function (req, res) {
+    try {
+      const prod = generateProduct();
+
+      return res.status(201).json({
+        status: 'success',
+        msg: 'Take 100 products in 1 page',
+        data: prod,
+      });
+    } catch (error) {
+      CustomError.createError({
+        name: 'Products get error',
+        cause: '',
+        message: 'Error trying to get a hundred products in one page',
+        code: EErros.INVALID_TYPES_ERROR,
+      });
+    }
   },
 };

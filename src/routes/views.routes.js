@@ -5,6 +5,8 @@ export const viewsRouter = express.Router();
 
 viewsRouter.get('/', viewController.getHomePage);
 
+viewsRouter.get('/mockingproducts', viewController.getHundredProducts);
+
 viewsRouter.get('/register', viewController.getRegisterPage);
 
 viewsRouter.get('/products', checkUser, viewController.getProductPage);

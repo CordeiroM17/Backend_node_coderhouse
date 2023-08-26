@@ -13,6 +13,8 @@ import { userRouter } from './routes/users.routes.js';
 import { sessionsRouter } from './routes/sessions.routes.js';
 import { entorno } from './dirname.js';
 import { factory } from './DAO/factory.js';
+import errorHandler from "./middleware/error.js"
+import compression from 'express-compression';
 
 const app = express();
 
@@ -25,6 +27,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
 app.use(cookieParser());
+app.use(
+  compression({
+    brotli: { enable: true, zlib: {} },
+  })
+);
 
 app.use(
   session({
@@ -62,6 +69,8 @@ app.get('*', (req, res) => {
     data: {},
   });
 });
+
+app.use(errorHandler);
 
 app.listen(entorno.PORT, () => {
   console.log(`Server running on port http://localhost:${entorno.PORT}`);
