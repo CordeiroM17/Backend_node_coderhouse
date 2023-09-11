@@ -13,8 +13,9 @@ import { userRouter } from './routes/users.routes.js';
 import { sessionsRouter } from './routes/sessions.routes.js';
 import { entorno } from './dirname.js';
 import { factory } from './DAO/factory.js';
-import errorHandler from "./middleware/error.js"
+import errorHandler from './middleware/error.js';
 import compression from 'express-compression';
+import { forgotPasswordRouter } from './routes/forgotPassword.routes.js';
 
 const app = express();
 
@@ -60,6 +61,7 @@ app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
 app.use('/api/sessions', sessionsRouter);
 app.use('/auth', userRouter);
+app.use('/password', forgotPasswordRouter);
 app.use('/', viewsRouter);
 
 app.get('*', (req, res) => {

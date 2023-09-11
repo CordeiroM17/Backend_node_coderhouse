@@ -23,5 +23,6 @@ entorno.PORT = process.env.PORT;
 entorno.MONGO_URL = process.env.MONGO_URL;
 entorno.GITHUB_PASSPORT_CLIENT_ID = process.env.GITHUB_PASSPORT_CLIENT_ID;
 entorno.GITHUB_PASSPORT_CLIENT_SECRET = process.env.GITHUB_PASSPORT_CLIENT_SECRET;
+entorno.API_URL = process.env.API_URL;
 entorno.GOOGLE_EMAIL = process.env.GOOGLE_EMAIL;
 entorno.GOOGLE_PASS = process.env.GOOGLE_PASS;

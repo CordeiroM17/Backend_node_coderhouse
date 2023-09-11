@@ -1,7 +1,11 @@
+import CustomError from '../services/errors/customError.js';
+import EErros from '../services/errors/enums.js';
+import { generateUserErrorInfo } from '../services/errors/info.js';
+
 export const userController = {
   registerGet: async function (req, res) {
     try {
-      return res.render('registerForm', {});
+      return res.render('registerForm');
     } catch (error) {
       return res.status(500).json({
         status: 'error',
@@ -25,10 +29,11 @@ export const userController = {
       };
       return res.redirect('/');
     } catch (error) {
-      return res.status(500).json({
-        status: 'error',
-        msg: 'the user could not be created',
-        data: { error },
+      CustomError.createError({
+        name: 'User creation error',
+        cause: generateUserErrorInfo(req.user),
+        message: 'Error trying to create user',
+        code: EErros.INVALID_TYPES_ERROR,
       });
     }
   },

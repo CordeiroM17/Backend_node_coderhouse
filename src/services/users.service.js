@@ -19,17 +19,28 @@ class UsersService {
   async registerNewUser(fields) {
     this.registerFieldsComprobation(fields);
     const { firstName, lastName, email, age, password } = fields;
-    return await users.createUser(firstName, lastName, email, age, password)
+    return await users.createUser(firstName, lastName, email, age, password);
   }
 
   async loginUser(fields) {
     this.loginFieldsComprobation(fields);
     const { email, password } = fields;
-    const foundUser = await users.findUserByEmail(email)
+    const foundUser = await users.findUserByEmail(email);
     if (foundUser && isValidPassword(password, foundUser.password)) {
       return foundUser;
     } else {
       return false;
+    }
+  }
+
+  async changePassword(email, password) {
+    const user = await users.findUserByEmail(email);
+    const id = user._id.toString()
+
+    if (user) {
+      await users.changePassword(id, password);
+    } else {
+      res.send('no existe el correo');
     }
   }
 }

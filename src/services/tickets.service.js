@@ -1,6 +1,6 @@
 import { tickets, users } from '../DAO/factory.js';
 import { entorno } from '../dirname.js';
-import { transport } from '../utils/trasportNodemailer.js';
+import { transport } from '../utils/transportNodemailer.js';
 
 class TicketsService {
   async createTicket(cartId, products) {

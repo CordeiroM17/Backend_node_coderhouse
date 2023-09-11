@@ -1,33 +1,38 @@
-<main class="main__register">
-    <div class="form__container">
-        <h1 class="form__title">Sign Up</h1>
-
-        <form class="form__register" action="/auth/register" method="POST">
-            <div class="form__register__name">
-                <div class="name__container name__container--short">
-                    <label class="form__register__label">First Name</label>
-                    <input id="firstName" name="firstName" type="text" placeholder="First Name" required/>
-                </div>
-                <div class="name__container">
-                    <label class="form__register__label">Last Name</label>
-                    <input id="lastName" name="lastName" type="text" placeholder="Last Name" required/>
-                </div>
-            </div>
-
-            <label class="form__register__label">Email</label>
-            <input id="email" name="email" type="email" placeholder="Email" required/>
-
-            <label class="form__register__label">Age</label>
-            <input id="age" name="age" type="number" placeholder="Age" required/>
-
-            <label class="form__register__label">Password</label>
-            <input id="password" name="password" type="password" placeholder="Password" required/>
-
-            <input class="form__submit" type="submit" value="register"/>
-        </form>
-        <div class="form__register__footer">
-            <p>Already user?</p>
-            <a href="/auth/login">Log in</a>
-        </div>
+<main class='main__register'>
+  <section class="section__login">
+    <div>
+        <img src="/assets/register.svg" alt="#"/>
     </div>
+    <div class='form__container'>
+      <h1 class='form__title'>Sign Up</h1>
+
+      <form class='form__register' action='/auth/register' method='POST'>
+        <div class='form__register__name'>
+          <div class='name__container name__container--short'>
+            <label class='form__register__label'>First Name</label>
+            <input id='firstName' name='firstName' type='text' placeholder='First Name' required />
+          </div>
+          <div class='name__container'>
+            <label class='form__register__label'>Last Name</label>
+            <input id='lastName' name='lastName' type='text' placeholder='Last Name' required />
+          </div>
+        </div>
+
+        <label class='form__register__label'>Email</label>
+        <input id='email' name='email' type='email' placeholder='Email' required />
+
+        <label class='form__register__label'>Age</label>
+        <input id='age' name='age' type='number' placeholder='Age' required />
+
+        <label class='form__register__label'>Password</label>
+        <input id='password' name='password' type='password' placeholder='Password' required />
+
+        <input class='form__submit' type='submit' value='register' />
+      </form>
+      <div class='form__register__footer'>
+        <p>Already user?</p>
+        <a href='/auth/login'>Log in</a>
+      </div>
+    </div>
+  </section>
 </main>

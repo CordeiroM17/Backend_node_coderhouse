@@ -8,9 +8,6 @@ export default (error, req, res, next) => {
       res.status(400).send({ status: 'error', error: error.name, cause: error.cause });
       break;
 
-    case EErros.MONGO_CONNECTION_ERROR:
-      res.status(500).send({ status: 'error', error: error.name, cause: error.cause });
-      break;
     default:
       res.status(500).send({ status: 'error', error: 'Unhandled error' });
       break;

@@ -11,6 +11,7 @@ export const viewController = {
       return res.status(400).render('errorPage', { msg: 'Page not found, please try later' });
     }
   },
+
   getRegisterPage: async function (req, res) {
     try {
       return res.status(200).render('registerForm');
@@ -18,6 +19,7 @@ export const viewController = {
       return res.status(400).render('errorPage', { msg: 'Page not found, please try later' });
     }
   },
+
   getProductPage: async function (req, res) {
     const { page, limit } = req.query;
     try {
@@ -50,6 +52,7 @@ export const viewController = {
       return res.status(400).render('errorPage', { msg: 'Please Login' });
     }
   },
+
   getCartByIdPage: async function (req, res) {
     const cartId = req.params.cid;
     try {
@@ -69,6 +72,7 @@ export const viewController = {
       return res.status(400).render('errorPage', { msg: 'Please Login' });
     }
   },
+
   admin: async function (req, res) {
     res.send('esto solo lo puede ver el admin');
   },
