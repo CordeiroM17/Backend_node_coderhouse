@@ -222,7 +222,55 @@ tbody tr td {
 
 /* Home */
 
-.main__home {
+html, body { height: 100%; }
+body {
+  overflow: hidden;
+}
+
+.ocean { 
+    height: 5%;
+    width:100%;
+    position:absolute;
+    bottom:0;
+    left:0;
+    background: #015871;
+  }
+  
+  .wave {
+    background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/85486/wave.svg) repeat-x; 
+    position: absolute;
+    top: -198px;
+    width: 6400px;
+    height: 198px;
+    animation: wave 15s cubic-bezier( 0.36, 0.45, 0.63, 0.53) infinite;
+    transform: translate3d(0, 0, 0);
+  }
+  
+  .wave:nth-of-type(2) {
+    top: -175px;
+    animation: wave 15s cubic-bezier( 0.36, 0.45, 0.63, 0.53) -.125s infinite, swell 7s ease -1.25s infinite;
+    opacity: 1;
+  }
+  
+  @keyframes wave {
+    0% {
+      margin-left: 0;
+    }
+    100% {
+      margin-left: -1600px;
+    }
+  }
+  
+  @keyframes swell {
+    0%, 100% {
+      transform: translate3d(0,-25px,0);
+    }
+    50% {
+      transform: translate3d(0,5px,0);
+    }
+  }
+
+.section__home {
     height: 100%; width: 100%;
     display: flex;
     flex-direction: column;
@@ -316,6 +364,12 @@ tbody tr td {
     flex-direction: column;
     width: 100%;
     margin: 10px 0 0 0;
+}
+
+.form__register a {
+    display: inline;
+    align-self: flex-start;
+    margin-top: 10px;
 }
 
 .form__register__label {

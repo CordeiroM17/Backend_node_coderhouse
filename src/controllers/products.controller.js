@@ -11,12 +11,14 @@ export const productsController = {
           title: prod.title,
           description: prod.description,
           thumbnail: prod.thumbnail,
+          price: prod.price,
           code: prod.code,
           stock: prod.stock,
         };
       });
+      console.log(typeof productsMap);
       return res.status(200).json({
-        status: 'success',
+        status: 'Success',
         payload: productsMap,
         totalPages: products.totalPages,
         prevPage: products.prevPage,
@@ -40,8 +42,8 @@ export const productsController = {
       let productId = req.params.pid;
       const productFound = await productService.getProductById(productId);
       return res.status(200).json({
-        status: 'success',
-        msg: 'product found',
+        status: 'Success',
+        msg: 'Product found',
         data: productFound,
       });
     } catch (error) {
@@ -73,38 +75,38 @@ export const productsController = {
 
   createOneProduct: async function (req, res) {
     try {
-        const productToCreate = req.body;
-        const productCreated = await productService.createProduct(productToCreate);
-        return res.status(201).json({
-          status: 'success',
-          msg: 'product create',
-          data: productCreated,
-        });
-      } catch (error) {
-        return res.status(404).json({
-          status: 'error',
-          msg: 'product not created',
-          data: {},
-        });
-      }
+      const productToCreate = req.body;
+      const productCreated = await productService.createProduct(productToCreate);
+      return res.status(201).json({
+        status: 'success',
+        msg: 'product create',
+        data: productCreated,
+      });
+    } catch (error) {
+      return res.status(404).json({
+        status: 'error',
+        msg: 'product not created',
+        data: {},
+      });
+    }
   },
 
   updateOneProduct: async function (req, res) {
     try {
-        const pid = req.params.pid;
-        const newProduct = req.body;
-        await productService.putProduct(pid, newProduct);
-        return res.status(201).json({
-          status: 'success',
-          msg: 'successfully modified product',
-          data: newProduct,
-        });
-      } catch (error) {
-        return res.status(404).json({
-          status: 'error',
-          msg: 'could not modify object',
-          data: {},
-        });
-      }
-  }
+      const pid = req.params.pid;
+      const newProduct = req.body;
+      await productService.putProduct(pid, newProduct);
+      return res.status(201).json({
+        status: 'success',
+        msg: 'successfully modified product',
+        data: newProduct,
+      });
+    } catch (error) {
+      return res.status(404).json({
+        status: 'error',
+        msg: 'could not modify object',
+        data: {},
+      });
+    }
+  },
 };

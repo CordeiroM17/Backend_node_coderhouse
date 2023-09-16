@@ -16,6 +16,8 @@ import { factory } from './DAO/factory.js';
 import errorHandler from './middleware/error.js';
 import compression from 'express-compression';
 import { forgotPasswordRouter } from './routes/forgotPassword.routes.js';
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUiExpress from 'swagger-ui-express';
 
 const app = express();
 
@@ -47,9 +49,25 @@ app.use(
   })
 );
 
+// PASSPORT
 iniPassport();
 app.use(passport.initialize());
 app.use(passport.session());
+
+// SWAGGER
+const swaggerOptions = {
+  definition: {
+    openapi: '3.0.1',
+    info: {
+      title: 'Documentacion de CoderBackend',
+      description: 'Este es el proyecto que hice para el curso de backend en coderhouse',
+    },
+  },
+  apis: [`${__dirname}/docs/**/*.yaml`],
+};
+
+const specs = swaggerJSDoc(swaggerOptions);
+app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 
 // CONFIGURACION DEL MOTOR DE HANDLEBARS
 app.engine('handlebars', handlebars.engine());

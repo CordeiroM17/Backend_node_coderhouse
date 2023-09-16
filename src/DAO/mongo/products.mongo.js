@@ -20,7 +20,8 @@ export default class Products {
   };
 
   editProduct = async (id, title, description, price, thubmail, code, stock) => {
-    await ProductModel.findByIdAndUpdate(id, { title, description, price, thubmail, code, stock });
+    console.log("llegue al mongo")
+    return await ProductModel.findByIdAndUpdate({_id: id}, { title, description, price, thubmail, code, stock });
   };
 
   decreaseProductAmount = async (idProduct, newStock) => {
