@@ -72,6 +72,21 @@ paths:
                 $ref: '#components/schemas/ProductEdited'
         404:
           $ref: '#components/responses/ProductNotEdited'
+    delete:
+      summary: Delete a product from the ID
+      tags:
+        - Products
+      parameters:
+        - $ref: '#components/parameters/ProductId'
+      responses:
+        200:
+          description: the product was successfully removed
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/ProductDelete'
+        404:
+          $ref: '#components/responses/ProductNotDeleted'
 components:
   responses:
     ProductNotFound:
@@ -82,6 +97,9 @@ components:
 
     ProductNotEdited:
       description: (ProductNotEdited 404) Product not edited, could not modify object
+
+    ProductNotDeleted:
+      description: (ProductNotCreated 404) Product not deleted or not exist
 
     ServerError:
       description: (ServerError 500) Error in the server
@@ -307,3 +325,16 @@ components:
           price: 5000
           code: "abc100"
           stock: 50
+    
+    ProductDelete:
+      type: object
+      properties:
+        status: 
+          type: string
+          description: Success
+        msg:
+          type: string
+          description: Product created
+      example:
+        status: Success
+        msg: Product deleted
