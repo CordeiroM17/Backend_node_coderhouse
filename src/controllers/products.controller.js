@@ -62,11 +62,13 @@ export const productsController = {
       return res.status(200).json({
         status: 'success',
         msg: 'product deleted',
+        data: {},
       });
     } catch (error) {
       return res.status(404).json({
         status: 'error',
         msg: 'product not exist',
+        data: 'product not deleted',
       });
     }
   },

@@ -1,0 +1,7 @@
+1 - Hacer la documentacion de carts
+
+2 - Hacer manejo de erres con custom error y enumerarlos
+
+3 - Hacer test para todos los endpoints
+
+4 - Ir a la clase 19 y ver el desafio complementario para hacer un usuario premium

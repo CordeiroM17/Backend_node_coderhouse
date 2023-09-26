@@ -335,6 +335,10 @@ components:
         msg:
           type: string
           description: Product created
+        data:
+          type: object
+          description: Product deleted
       example:
         status: Success
         msg: Product deleted
+        data: {}

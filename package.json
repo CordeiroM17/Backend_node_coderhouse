@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "nodemon src/test.js",
+    "test-endpoints": "mocha test/Endpoints.test.js",
     "dev": "nodemon -e yaml,js src/app.js DEV"
   },
   "keywords": [],
@@ -27,7 +27,6 @@
     "mongoose-paginate-v2": "^1.7.1",
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.4",
-    "nodemon": "^3.0.1",
     "passport": "^0.6.0",
     "passport-github2": "^0.1.12",
     "passport-local": "^1.0.0",
@@ -36,5 +35,11 @@
     "swagger-ui-express": "^5.0.0",
     "sweetalert2": "^11.7.5",
     "winston": "^3.10.0"
+  },
+  "devDependencies": {
+    "chai": "^4.3.7",
+    "mocha": "^10.2.0",
+    "nodemon": "^3.0.1",
+    "supertest": "6.3.3"
   }
 }
