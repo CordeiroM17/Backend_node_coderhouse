@@ -4,6 +4,9 @@
   "description": "",
   "main": "app.js",
   "type": "module",
+  "engines": {
+    "node": "18.x"
+  },
   "scripts": {
     "test-endpoints": "mocha test/Endpoints.test.js",
     "dev": "nodemon -e yaml,js src/app.js DEV",
