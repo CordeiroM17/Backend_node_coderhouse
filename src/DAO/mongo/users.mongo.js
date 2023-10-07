@@ -4,8 +4,8 @@ import { UserModel } from './models/users.model.js';
 export default class Users {
   constructor() {}
 
-  createUser = async (firstName, lastName, email, age, password) => {
-    return await UserModel.create({ firstName, lastName, email, age, password: createHash(password), rol: 'user' });
+  createUser = async (firstName, lastName, email, age, password, cartId) => {
+    return await UserModel.create({ firstName, lastName, email, age, password: createHash(password), rol: 'user', cart: cartId });
   };
 
   findUserByEmail = async (email) => {
@@ -19,4 +19,8 @@ export default class Users {
   changePassword = async (id, pass) => {
     await UserModel.findByIdAndUpdate({ _id: id }, { password: createHash(pass) });
   };
+
+  findUserById = async (id) => {
+    return await UserModel.findById(id);
+  }
 }

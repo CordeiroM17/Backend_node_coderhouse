@@ -6,10 +6,24 @@ class TicketsService {
   async createTicket(cartId, products) {
     const user = await users.findUserByCart(cartId);
     const { email } = user;
-    const ticket = await tickets.createTicket(email, products);
 
-    this.sendEmail(email /* , ticket */);
+    const finalPrice = this.calculateTotal(products);
+
+    // Sacar id del ticket para ponerselo como code
+    const ticket = await tickets.createTicket(email, products, finalPrice);
+
+    this.sendEmail(email);
+    return ticket;
   }
+
+  calculateTotal = (prodArray) => {
+    let finalPrice = 0;
+    for (let i = 0; i < prodArray.length; i++) {
+      const prod = prodArray[i];
+      finalPrice = finalPrice + prod.quantity * prod.price;
+    }
+    return finalPrice;
+  };
 
   async sendEmail(email) {
     await transport.sendMail({

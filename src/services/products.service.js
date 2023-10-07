@@ -10,24 +10,51 @@ class ProductService {
 
   async getProductById(id) {
     const productFound = await products.getProductById(id);
-    return productFound;
+    if (productFound) {
+      return productFound;
+    } else {
+      throw new Error('Product not exist');
+    }
   }
 
   async deleteProduct(id) {
     const productDeleted = await products.deleteProduct(id);
-    return productDeleted;
+    if (productDeleted) {
+      return productDeleted;
+    } else {
+      throw new Error('Product not exist');
+    }
   }
 
   async createProduct(newProduct) {
     const { title, description, price, thubmail, code, stock } = newProduct;
-    const productCreated = await products.createProduct(title, description, price, thubmail, code, stock);
-    return productCreated;
+
+    const foundCode = await products.getProductByCode(code);
+
+    if (foundCode) {
+      if (foundCode.code == code) {
+        throw new Error('Code is already in use');
+      }
+    } else {
+      console.log('codigo usable');
+      const productCreated = await products.createProduct(title, description, price, thubmail, code, stock);
+      return productCreated;
+    }
   }
 
   async putProduct(id, newProduct) {
-    const { title, description, price, thubmail, code, stock } = newProduct;
-    const productEdited = await products.editProduct(id, title, description, price, thubmail, code, stock);
-    return productEdited;
+    const productFound = await products.getProductById(id);
+    if (productFound) {
+      const { title, description, price, thubmail, code, stock } = newProduct;
+      if (!title || !description || !price || !thubmail || !code || !stock) {
+        throw new Error('Faltan campos por enviar');
+      } else {
+        const productEdited = await products.editProduct(id, title, description, price, thubmail, code, stock);
+        return productEdited;
+      }
+    } else {
+      throw new Error('product not exist');
+    }
   }
 
   async consultStock(cartProductArray, cartId) {
@@ -39,17 +66,13 @@ class ProductService {
       let productId = cartProduct.idProduct._id.toString();
       let product = await this.getProductById(productId);
 
-      console.log(cartProduct.quantity, ' - ', product.stock);
-
       if (cartProduct.quantity <= product.stock) {
         const cartProductDto = new CartDTO(cartProduct.idProduct, cartProduct.quantity);
         const newStock = product.stock - cartProduct.quantity;
         newCart.push(cartProductDto);
         await products.decreaseProductAmount(productId, newStock);
-        console.log('se puede comprar');
       } else {
         noStockAvailable.push(cartProduct);
-        console.log('no se puede comprar');
       }
     }
 

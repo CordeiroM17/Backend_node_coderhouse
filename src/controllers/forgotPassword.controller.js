@@ -17,7 +17,7 @@ export const forgotPasswordController = {
     try {
       const { email } = req.body;
       await forgotPasswordService.createRecoverCode(email);
-      return res.render('checkInYourEmail');
+      return res.status(200).render('checkInYourEmail');
     } catch (error) {
       return res.status(500).json({
         status: 'error',

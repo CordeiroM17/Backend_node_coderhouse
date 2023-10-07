@@ -3,6 +3,10 @@ import { ProductModel } from './models/product.model.js';
 export default class Products {
   constructor() {}
 
+  getProductByCode = async (code) => {
+    return await ProductModel.findOne({ code });
+  };
+
   getProductsPaginate = async (page, limit) => {
     return await ProductModel.paginate({}, { limit: limit || 10, page: page || 1 });
   };
@@ -20,8 +24,7 @@ export default class Products {
   };
 
   editProduct = async (id, title, description, price, thubmail, code, stock) => {
-    console.log("llegue al mongo")
-    return await ProductModel.findByIdAndUpdate({_id: id}, { title, description, price, thubmail, code, stock });
+    return await ProductModel.findByIdAndUpdate({ _id: id }, { title, description, price, thubmail, code, stock });
   };
 
   decreaseProductAmount = async (idProduct, newStock) => {

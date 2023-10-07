@@ -20,9 +20,6 @@ import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUiExpress from 'swagger-ui-express';
 
 const app = express();
-
-console.log(entorno);
-
 factory();
 
 // MIDDLEWARES
@@ -66,6 +63,7 @@ const swaggerOptions = {
   apis: [`${__dirname}/docs/**/*.yaml`],
 };
 
+// DOCS
 const specs = swaggerJSDoc(swaggerOptions);
 app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 
@@ -90,8 +88,8 @@ app.get('*', (req, res) => {
   });
 });
 
-app.use(errorHandler);
-
 app.listen(entorno.PORT, () => {
   console.log(`Server running on port http://localhost:${entorno.PORT}`);
 });
+
+app.use(errorHandler);

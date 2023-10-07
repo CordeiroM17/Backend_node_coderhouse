@@ -1,18 +1,21 @@
 <div class="profile__container">
     <h2>Bienvenido {{firstName}} usted es "{{rol}}"</h2>
-    <a class="profile__btn--secret" href='/administracion'>Ver datos super secretos<a></a>
+    <a class="profile__btn--secret" href='/carts/{{cart}}'>Cart<a></a>
+    <a class="profile__btn--secret" href='/auth/current'>Ver perfil<a></a>
     <a class="profile__btn--logout" href="/auth/logout">Logout</a>
 </div>
 <section class="card__container">
     {{#each payload}}
         <div class="card">
-            <img src="{{this.thumbnail}}" alt="image"/>
+            <img src="{{this.thubmail}}" alt="image"/>
             <div class="card__data">
                 <h2 class="card__title">{{this.title}}</h2>
                 <p class="card__description">{{this.description}}</p>
                 <p class="card__price">Price: ${{this.price}}</p>
             </div>
-            <button id="{{this.id}}" class="btn__add__to__cart">Add to cart</button>
+            <form class="btn__add__to__cart" action="/api/carts/{{../cart}}/products/{{this.id}}" method="post">
+                <button type="submit" id="{{this.id}}">Add to cart</button>
+            </form>
         </div>
     {{/each}}
 </section>

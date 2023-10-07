@@ -4,7 +4,7 @@ import { userController } from '../controllers/users.controller.js';
 
 export const userRouter = express.Router();
 
-userRouter.get('/session', userController.sessionInformation);
+userRouter.get('/current', userController.sessionInformation);
 
 userRouter.get('/register', userController.registerGet);
 userRouter.post('/register', passport.authenticate('register', { failureRedirect: '/auth/failregister' }), userController.registerPost);

@@ -5,26 +5,33 @@ import { ticketsService } from './tickets.service.js';
 class CartsService {
   productExistValidation(product) {
     if (!product) {
-      throw new Error('product not found');
+      throw new Error('Product not found');
     }
   }
 
   cartExistValidation(cart) {
     if (!cart) {
-      throw new Error('cart not found');
+      throw new Error('Cart not found');
+    }
+  }
+
+  isCartEmpty(cartFound) {
+    if(cartFound.productos.length <= 0) {
+      throw new Error('Cart empty');
     }
   }
 
   async purchase(cartId) {
     const cartFound = await this.getCartById(cartId);
+
     this.cartExistValidation(cartFound);
+    this.isCartEmpty(cartFound)
 
     const cartProductArray = cartFound.productos;
+
     const productsToAddNewArray = await productService.consultStock(cartProductArray, cartId);
-
-    console.log('ya consulte el stock');
-
-    await ticketsService.createTicket(cartId, productsToAddNewArray);
+    const ticket = await ticketsService.createTicket(cartId, productsToAddNewArray);
+    return ticket;
   }
 
   async putQuantityProduct(cartId, productId, quantityBody) {
@@ -34,11 +41,9 @@ class CartsService {
     const productToEdit = await productService.getProductById(productId);
     this.productExistValidation(productToEdit);
 
-    console.log('verifique que el producto y el carrito existen');
-
     const { quantity } = quantityBody;
-
-    await carts.updateOne(quantity, cartId, productToEdit);
+    console.log(quantity, cartId, productToEdit);
+    await carts.updateQuantity(quantity, cartId, productToEdit);
   }
 
   async putCartProductArray(cartId, productArray) {

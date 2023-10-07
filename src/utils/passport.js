@@ -4,6 +4,8 @@ import { createHash, isValidPassword } from './bcrypt.js';
 import { UserModel } from '../DAO/mongo/models/users.model.js';
 import GitHubStrategy from 'passport-github2';
 import { entorno } from '../dirname.js';
+import { users } from '../DAO/factory.js';
+import { usersService } from '../services/users.service.js';
 const LocalStrategy = local.Strategy;
 
 export function iniPassport() {
@@ -11,7 +13,7 @@ export function iniPassport() {
     'login',
     new LocalStrategy({ usernameField: 'email' }, async (username, password, done) => {
       try {
-        const user = await UserModel.findOne({ email: username });
+        const user = await users.findUserByEmail(username);
         if (!user) {
           console.log('User Not Found with username (email) ' + username);
           return done(null, false);
@@ -38,7 +40,8 @@ export function iniPassport() {
       async (req, username, password, done) => {
         try {
           const { firstName, lastName, age } = req.body;
-          let user = await UserModel.findOne({ email: username });
+          let user = await users.findUserByEmail(username);
+
           if (user) {
             console.log('User already exists');
             return done(null, false);
@@ -48,10 +51,11 @@ export function iniPassport() {
             email: username,
             firstName,
             lastName,
-            rol: 'user',
-            password: createHash(password),
+            age,
+            password,
           };
-          let userCreated = await UserModel.create(newUser);
+
+          let userCreated = await usersService.registerNewUser(newUser);
 
           console.log(userCreated);
           console.log('User Registration succesful');

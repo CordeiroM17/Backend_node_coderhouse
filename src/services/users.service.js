@@ -1,5 +1,6 @@
 import { users } from '../DAO/factory.js';
 import { isValidPassword } from '../utils/bcrypt.js';
+import { cartsService } from './carts.service.js';
 
 class UsersService {
   registerFieldsComprobation(fields) {
@@ -18,8 +19,10 @@ class UsersService {
 
   async registerNewUser(fields) {
     this.registerFieldsComprobation(fields);
+    const { _id } = await cartsService.createCart();
+    const cartId = _id.toString();
     const { firstName, lastName, email, age, password } = fields;
-    return await users.createUser(firstName, lastName, email, age, password);
+    return await users.createUser(firstName, lastName, email, age, password, cartId);
   }
 
   async loginUser(fields) {
@@ -35,7 +38,7 @@ class UsersService {
 
   async changePassword(email, password) {
     const user = await users.findUserByEmail(email);
-    const id = user._id.toString()
+    const id = user._id.toString();
 
     if (user) {
       await users.changePassword(id, password);

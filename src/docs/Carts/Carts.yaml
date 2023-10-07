@@ -1,0 +1,353 @@
+paths:
+  /api/carts:
+    post:
+      summary: Create a cart
+      tags:
+        - Carts
+      responses:
+        200:
+          description: The cart was created
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/SuccessResponse'
+              example:
+                status: Success
+                msg: Cart created
+                data:
+                  _id: 651db1d7a632030b5f42883d
+                  productos: []
+        500:
+          description: The cart was not created or something went wrong
+          content:
+            application/json:
+              schema:
+                $ref: '#components/errors/SomethingWentWrong'
+              example:
+                status: Error
+                msg: Something went wrong
+                data: {}
+
+  /api/carts/{cid}:
+    get:
+      summary: Find a cart by id
+      tags:
+        - Carts
+      parameters:
+        - $ref: '#components/parameters/CartId'
+      responses:
+        200:
+          description: Cart Found
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/FindCartById'
+              example:
+                status: Success
+                msg: 'CartId: 651db1d7a632030b5f42883d'
+                data:
+                  _id: 651db1d7a632030b5f42883d
+                  productos: []
+        404:
+          description: Cart not found 
+          content:
+            application/json:
+              schema:
+                $ref: '#components/errors/SuccessResponse'
+              example:
+                status: Error
+                msg: Cart not found
+                data: {}
+
+    delete:
+      summary: Remove all product from the cart
+      tags:
+        - Carts
+      parameters:
+        - $ref: '#components/parameters/CartId'
+      responses:
+        201:
+          description: All products were removed from cart
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/SuccessResponse'
+              example:
+                status: Success
+                msg: All products were removed from cart
+                data: {}
+        500:
+          description: We were unable to remove all the products from the cart.
+          content:
+            application/json:
+              schema:
+                $ref: '#components/errors/SomethingWentWrong'
+              example:
+                status: Error
+                msg: Something went wrong
+                data: {}    
+
+    put:
+      summary: Add a array with products to the cart
+      tags:
+        - Carts
+      parameters:
+        - $ref: '#components/parameters/CartId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/requestBodies/PutArrayProducts'
+      responses:
+        201:
+          description: All products were removed from cart
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/SuccessResponse'
+              example:
+                status: Success
+                msg: Product array added
+                data: 
+                  _id: 651db1d7a632030b5f42883d
+                  productos:
+                    - idProduct: 651cd6b82be7cf40c5187a2e,
+                      quantity: 10
+                    - idProduct: 651cd6b92be7cf40c5187a3c,
+                      quantity: 2
+        500:
+          description: We were unable to remove all the products from the cart
+          content:
+            application/json:
+              schema:
+                $ref: '#components/errors/SomethingWentWrong'
+              example:
+                status: Error
+                msg: Something went wrong
+                data: {} 
+
+  /api/carts/{cid}/products/{pid}:
+    post:
+      summary: Add one product to the cart
+      tags:
+        - Carts
+      parameters:
+        - $ref: '#components/parameters/CartId'
+        - $ref: '#components/parameters/ProductId'
+      responses:
+        201:
+          description: Product be added to the cart
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/SuccessResponse'
+              example:
+                status: Success
+                msg: Product added
+                data:
+                  _id: 651db1d7a632030b5f42883d
+                  productos:
+                    - idProduct: 651cd6b82be7cf40c5187a2e,
+                      quantity: 1
+        404:
+          description: Product not added
+          content:
+            application/json:
+              schema:
+                $ref: '#components/errors/SomethingWentWrong'
+              example:
+                status: Error
+                msg: Product not added
+                data: {} 
+
+    delete:
+      summary: Delete one product from the cart
+      tags:
+        - Carts
+      parameters:
+        - $ref: '#components/parameters/CartId'
+        - $ref: '#components/parameters/ProductId'
+      responses:
+        201:
+          description: Product deleted from the cart
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/SuccessResponse'
+              example:
+                status: Success
+                msg: Product deleted from this cart
+                data: {}
+        404:
+          description: Product not deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#components/errors/SomethingWentWrong'
+              example:
+                status: Error
+                msg: Product not deleted to the cart
+                data: {} 
+        
+    put:
+      summary: Edit a quantity product from the cart
+      tags:
+        - Carts
+      parameters:
+        - $ref: '#components/parameters/CartId'
+        - $ref: '#components/parameters/ProductId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/requestBodies/PutQuantityProducts'
+      responses:
+        201:
+          description: Quantity edited
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/SuccessResponse'
+              example:
+                status: Success
+                msg: Quantity edited
+                data: {}
+        404:
+          description: Quantity not edited
+          content:
+            application/json:
+              schema:
+                $ref: '#components/errors/SomethingWentWrong'
+              example:
+                status: Error
+                msg: Quantity not edited
+                data: {} 
+
+  /api/carts/{cid}/purchase:
+    post:
+      summary: Finalize purchase
+      tags:
+        - Carts
+      parameters:
+        - $ref: '#components/parameters/CartId'
+      responses:
+        201:
+          description: Purchase complete
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/SuccessResponse'
+              example:
+                status: Success
+                msg: This is your ticket
+                data:
+                  _id: 'ObjectId(651ffacf6222d2962d60914b)'
+                  cart:
+                    - id: '651fe6f397b3843f5d4646a1'
+                      title: 'Intelligent Frozen Gloves'
+                      description: 'The automobile layout consists of a front-engine design, with transaxle-type transmissions mounted at the rear of the engine and four wheel drive'    
+                      price: 162
+                      code: 'b'
+                      quantity: 15
+                  code: 'ObjectId(651ffacf6222d2962d60914a)'
+                  amount: 62430
+                  purchaser: 'Gerald_Kiehn4@yahoo.com'
+                  createdAt: '2023-10-06T10:52:38.545Z'
+                  updatedAt: '2023-10-06T10:52:38.545Z'
+                    
+        500:
+          description: Purchase not complete
+          content:
+            application/json:
+              schema:
+                $ref: '#components/errors/SomethingWentWrong'
+              example:
+                status: Error
+                msg: Something went wrong
+                data: {} 
+
+components:
+  errors:
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Error
+        msg:
+          type: string
+          description: Message about what happend
+        data:
+          type: object
+          description: Empty object
+
+    SuccessResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Succes
+        msg:
+          type: string
+          description: Message about what happend
+        data:
+          type: object
+          description: Object with information
+
+  requestBodies:
+    PutArrayProducts:
+      type: object
+      properties:
+        productos:
+          type: array
+          items:
+            type: object
+            description: Products
+      example:
+        productos:
+          - idProduct: 651cd6b82be7cf40c5187a2e,
+            quantity: 10
+          - idProduct: 651cd6b92be7cf40c5187a3c,
+            quantity: 2
+
+    PutQuantityProducts:
+      type: object
+      properties:
+        quantity:
+          type: number
+          description: Number quantity
+      example:
+        quantity: 20
+
+  parameters:
+    CartId:
+      name: cid
+      in: path
+      required: true
+      description: ID's cart being searched
+      schema:
+        type: string
+
+      ProductId:
+        name: pid
+        in: path
+        required: true
+        description: ID's product being searched
+        schema:
+          type: string
+
+  schemas:
+    Cart:
+      type: object
+      propeties:
+        _id:
+          type: string
+          description: Cart id from mongodb
+        productos:
+          type: array
+          items:
+            type: object
+            description: Products
+

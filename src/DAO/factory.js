@@ -10,7 +10,7 @@ export let codes;
 export async function factory() {
   switch (entorno.PERSISTENCE) {
     case 'MONGO':
-      console.log('Mongo connect');
+      console.log('Mongo connect'); /* Hacer lo de errores aca */
       connectMongo();
       const { default: CartsMongo } = await import('./mongo/carts.mongo.js');
       const { default: ProductsMongo } = await import('./mongo/products.mongo.js');
@@ -30,18 +30,11 @@ export async function factory() {
       tickets = new Tickets();
       codes = new ForgotPassword();
 
-      console.log(Carts);
-      console.log(Products);
-      console.log(Users);
-      console.log(Tickets);
-      console.log(ForgotPassword);
-
       break;
     case 'MEMORY':
       console.log('Persistence with Memory');
-      /* const { default: ContactsMemory } = await import('./memory/contacts.memory.js');
       
-          Contacts = ContactsMemory; */
+      /* No se utilizo */
 
       break;
     default:

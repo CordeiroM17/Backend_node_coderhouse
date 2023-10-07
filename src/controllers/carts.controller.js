@@ -6,14 +6,14 @@ export const cartsController = {
       const cartId = req.params.cid;
       const ticket = await cartsService.purchase(cartId);
       return res.status(201).json({
-        status: 'success',
-        msg: 'this is your ticket',
+        status: 'Success',
+        msg: 'This is your ticket',
         data: ticket,
       });
     } catch (error) {
       return res.status(500).json({
-        status: 'error',
-        msg: 'something went wrong',
+        status: 'Error',
+        msg: 'Something went wrong',
         data: {},
       });
     }
@@ -23,14 +23,14 @@ export const cartsController = {
       const cartId = req.params.cid;
       const cart = await cartsService.getCartById(cartId);
       return res.status(201).json({
-        status: 'success',
-        msg: `cartId: ${cartId}`,
+        status: 'Success',
+        msg: `CartId: ${cartId}`,
         data: cart,
       });
     } catch (error) {
-      return res.status(500).json({
-        status: 'error',
-        msg: 'something went wrong',
+      return res.status(404).json({
+        status: 'Error',
+        msg: 'Cart not found',
         data: {},
       });
     }
@@ -38,10 +38,19 @@ export const cartsController = {
 
   createOneCart: async function (req, res) {
     try {
+      console.log("cart controller")
       const newCart = await cartsService.createCart();
-      res.status(200).send({ status: 'success', data: newCart });
+      return res.status(200).send({
+        status: 'Success',
+        msg: 'Cart created',
+        data: newCart,
+      });
     } catch (error) {
-      res.status(500).send({ status: 'error', message: error.message });
+      return res.status(500).json({
+        status: 'Error',
+        msg: 'Something went wrong',
+        data: {},
+      });
     }
   },
 
@@ -51,16 +60,15 @@ export const cartsController = {
       const productId = req.params.pid;
       await cartsService.addItemToCart(cartId, productId);
       const cart = await cartsService.getCartById(cartId);
-      console.log('producto añadido');
       return res.status(201).json({
-        status: 'success',
-        msg: 'product added',
+        status: 'Success',
+        msg: 'Product added',
         data: cart,
       });
     } catch (error) {
       return res.status(404).json({
-        status: 'error',
-        msg: 'product not added',
+        status: 'Error',
+        msg: 'Product not added',
         data: {},
       });
     }
@@ -72,32 +80,32 @@ export const cartsController = {
       const productId = req.params.pid;
       await cartsService.deleteProductFromCart(cartId, productId);
       return res.status(201).json({
-        status: 'success',
-        msg: 'product deleted from this cart',
+        status: 'Success',
+        msg: 'Product deleted from this cart',
         data: {},
       });
     } catch (error) {
       return res.status(404).json({
-        status: 'error',
-        msg: 'product not deleted to the cart',
+        status: 'Error',
+        msg: 'Product not deleted to the cart',
         data: {},
       });
     }
   },
 
-  removeProductFromCart: async function (req, res) {
+  removeAllProductsFromCart: async function (req, res) {
     try {
       const cartId = req.params.cid;
       await cartsService.deleteAllProductsFromCart(cartId);
       return res.status(201).json({
-        status: 'success',
-        msg: 'cart empty',
+        status: 'Success',
+        msg: 'All products were removed from cart',
         data: {},
       });
     } catch (error) {
-      return res.status(404).json({
-        status: 'error',
-        msg: 'cart not empty',
+      return res.status(500).json({
+        status: 'Error',
+        msg: 'Something went wrong',
         data: {},
       });
     }
@@ -110,14 +118,14 @@ export const cartsController = {
       const quantityBody = req.body;
       await cartsService.putQuantityProduct(cartId, productId, quantityBody);
       return res.status(201).json({
-        status: 'success',
-        msg: 'quantity edited',
+        status: 'Success',
+        msg: 'Quantity edited',
         data: {},
       });
     } catch (error) {
       return res.status(404).json({
-        status: 'error',
-        msg: 'quantity not edited',
+        status: 'Error',
+        msg: 'Quantity not edited',
         data: {},
       });
     }
@@ -129,14 +137,14 @@ export const cartsController = {
       const productArray = req.body;
       const cart = await cartsService.putCartProductArray(cartId, productArray);
       return res.status(201).json({
-        status: 'success',
-        msg: 'product array added',
+        status: 'Success',
+        msg: 'Product array added',
         data: cart,
       });
     } catch (error) {
       return res.status(404).json({
-        status: 'error',
-        msg: 'product array not added',
+        status: 'Error',
+        msg: 'Product array not added',
         data: {},
       });
     }

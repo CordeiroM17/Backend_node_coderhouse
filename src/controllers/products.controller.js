@@ -10,7 +10,7 @@ export const productsController = {
           id: prod._id,
           title: prod.title,
           description: prod.description,
-          thumbnail: prod.thumbnail,
+          thubmail: prod.thubmail,
           price: prod.price,
           code: prod.code,
           stock: prod.stock,
@@ -30,9 +30,9 @@ export const productsController = {
     } catch (error) {
       console.log(error);
       return res.status(500).json({
-        status: 'error',
-        msg: 'something went wrong',
-        data: { error },
+        status: 'Error',
+        msg: 'Something went wrong',
+        data: {},
       });
     }
   },
@@ -48,9 +48,9 @@ export const productsController = {
       });
     } catch (error) {
       return res.status(404).json({
-        status: 'error',
-        msg: 'product not found',
-        data: 'product ID not found',
+        status: 'Error',
+        msg: 'Product not found',
+        data: {},
       });
     }
   },
@@ -60,15 +60,15 @@ export const productsController = {
       const pid = req.params.pid;
       await productService.deleteProduct(pid);
       return res.status(200).json({
-        status: 'success',
-        msg: 'product deleted',
+        status: 'Success',
+        msg: 'Product deleted',
         data: {},
       });
     } catch (error) {
       return res.status(404).json({
-        status: 'error',
-        msg: 'product not exist',
-        data: 'product not deleted',
+        status: 'Error',
+        msg: 'Product not exist',
+        data: {},
       });
     }
   },
@@ -78,14 +78,14 @@ export const productsController = {
       const productToCreate = req.body;
       const productCreated = await productService.createProduct(productToCreate);
       return res.status(201).json({
-        status: 'success',
-        msg: 'product create',
+        status: 'Success',
+        msg: 'Product created',
         data: productCreated,
       });
     } catch (error) {
       return res.status(404).json({
-        status: 'error',
-        msg: 'product not created',
+        status: 'Error',
+        msg: 'Product not created',
         data: {},
       });
     }
@@ -97,14 +97,14 @@ export const productsController = {
       const newProduct = req.body;
       await productService.putProduct(pid, newProduct);
       return res.status(201).json({
-        status: 'success',
-        msg: 'successfully modified product',
+        status: 'Success',
+        msg: 'Successfully modified product',
         data: newProduct,
       });
     } catch (error) {
       return res.status(404).json({
-        status: 'error',
-        msg: 'could not modify object',
+        status: 'Error',
+        msg: 'Could not modify object',
         data: {},
       });
     }

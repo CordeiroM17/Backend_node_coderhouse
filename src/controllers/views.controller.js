@@ -1,3 +1,4 @@
+import { cartsService } from '../services/carts.service.js';
 import CustomError from '../services/errors/customError.js';
 import EErros from '../services/errors/enums.js';
 import { productService } from '../services/products.service.js';
@@ -30,7 +31,7 @@ export const viewController = {
           title: prod.title,
           description: prod.description,
           price: prod.price,
-          thumbnail: prod.thumbnail,
+          thubmail: prod.thubmail,
           code: prod.code,
           stock: prod.stock,
         };
@@ -40,6 +41,7 @@ export const viewController = {
         payload: productsMap,
         firstName: req.session.user?.firstName,
         rol: req.session.user?.rol,
+        cart: req.session.user?.cart,
         totalPages: products.totalPages,
         prevPage: products.prevPage,
         nextPage: products.nextPage,
@@ -66,8 +68,8 @@ export const viewController = {
           quantity: prod.quantity,
         };
       });
-      console.log(productsMap);
-      return res.status(200).render('carts', { productsMap });
+      const cartEmpty = productsMap.length === 0;
+      return res.status(200).render('carts', { productsMap, cartEmpty, cartId });
     } catch (error) {
       return res.status(400).render('errorPage', { msg: 'Please Login' });
     }

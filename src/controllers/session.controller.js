@@ -2,6 +2,7 @@ export const sessionController = {
   showSession: async function (req, res) {
     try {
       // agregar un DTOUserResponse para que no enviee informacion sensible al front
+      console.log("current view")
       return res.status(200).json({
         status: 'succes',
         msg: 'datos de la session',

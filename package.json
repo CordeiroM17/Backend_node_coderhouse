@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "test-endpoints": "mocha test/Endpoints.test.js",
-    "dev": "nodemon -e yaml,js src/app.js DEV"
+    "dev": "nodemon -e yaml,js src/app.js DEV",
+    "start": "node src/app.js PROD"
   },
   "keywords": [],
   "author": "",
