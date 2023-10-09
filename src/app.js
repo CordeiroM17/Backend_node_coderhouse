@@ -2,15 +2,14 @@ import express from 'express';
 import handlebars from 'express-handlebars';
 import { cartsRouter } from './routes/carts.routes.js';
 import { productsRouter } from './routes/products.routes.js';
-import { __dirname } from './dirname.js';
 import { viewsRouter } from './routes/views.routes.js';
+import { userRouter } from './routes/users.routes.js';
+import { __dirname } from './dirname.js';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import { iniPassport } from './utils/passport.js';
 import passport from 'passport';
-import { userRouter } from './routes/users.routes.js';
-import { sessionsRouter } from './routes/sessions.routes.js';
 import { entorno } from './dirname.js';
 import { factory } from './DAO/factory.js';
 import errorHandler from './middleware/error.js';
@@ -18,6 +17,7 @@ import compression from 'express-compression';
 import { forgotPasswordRouter } from './routes/forgotPassword.routes.js';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUiExpress from 'swagger-ui-express';
+import { logger } from './utils/logger.js';
 
 const app = express();
 factory();
@@ -75,7 +75,6 @@ app.set('view engine', 'handlebars');
 // ENDPOINTS
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
-app.use('/api/sessions', sessionsRouter);
 app.use('/auth', userRouter);
 app.use('/password', forgotPasswordRouter);
 app.use('/', viewsRouter);
@@ -89,7 +88,7 @@ app.get('*', (req, res) => {
 });
 
 app.listen(entorno.PORT, () => {
-  console.log(`Server running on port http://localhost:${entorno.PORT}`);
+  logger.info(`Server running on port ${entorno.API_URL}`);
 });
 
 app.use(errorHandler);

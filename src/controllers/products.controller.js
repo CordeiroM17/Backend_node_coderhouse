@@ -1,4 +1,5 @@
 import { productService } from '../services/products.service.js';
+import { logger } from '../utils/logger.js';
 
 export const productsController = {
   getAllProducts: async function (req, res) {
@@ -16,7 +17,6 @@ export const productsController = {
           stock: prod.stock,
         };
       });
-      console.log(typeof productsMap);
       return res.status(200).json({
         status: 'Success',
         payload: productsMap,
@@ -28,7 +28,7 @@ export const productsController = {
         hasNextPage: products.hasNextPage,
       });
     } catch (error) {
-      console.log(error);
+      logger.error(`${error}`);
       return res.status(500).json({
         status: 'Error',
         msg: 'Something went wrong',

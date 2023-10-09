@@ -1,5 +1,6 @@
 import { entorno } from '../dirname.js';
 import { connectMongo } from '../utils/connections.js';
+import { logger } from '../utils/logger.js';
 
 export let carts;
 export let products;
@@ -10,7 +11,7 @@ export let codes;
 export async function factory() {
   switch (entorno.PERSISTENCE) {
     case 'MONGO':
-      console.log('Mongo connect'); /* Hacer lo de errores aca */
+      logger.info('Mongo connect');
       connectMongo();
       const { default: CartsMongo } = await import('./mongo/carts.mongo.js');
       const { default: ProductsMongo } = await import('./mongo/products.mongo.js');
@@ -32,7 +33,7 @@ export async function factory() {
 
       break;
     case 'MEMORY':
-      console.log('Persistence with Memory');
+      logger.info('Persistence with Memory');
       
       /* No se utilizo */
 

@@ -3,6 +3,7 @@ import CustomError from '../services/errors/customError.js';
 import EErros from '../services/errors/enums.js';
 import { productService } from '../services/products.service.js';
 import { generateProduct } from '../utils/generateFakeProduct.js';
+import { logger } from '../utils/logger.js';
 
 export const viewController = {
   getHomePage: async function (req, res) {
@@ -50,7 +51,7 @@ export const viewController = {
         hasNextPage: products.hasNextPage,
       });
     } catch (error) {
-      console.log(error);
+      logger.error(`${error}`);
       return res.status(400).render('errorPage', { msg: 'Please Login' });
     }
   },

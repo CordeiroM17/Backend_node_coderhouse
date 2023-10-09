@@ -36,7 +36,6 @@ class ProductService {
         throw new Error('Code is already in use');
       }
     } else {
-      console.log('codigo usable');
       const productCreated = await products.createProduct(title, description, price, thubmail, code, stock);
       return productCreated;
     }

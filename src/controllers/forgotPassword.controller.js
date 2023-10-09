@@ -39,11 +39,10 @@ export const forgotPasswordController = {
 
   recoverPasswordPost: async function (req, res) {
     try {
-      /* El code y el email vienen con un slash al final */
       const { code, email, password } = req.body;
-      /* Hacer que la contraseña se pueda cambiar */
+
       await forgotPasswordService.putNewPassword(code, email, password);
-      /* Enviar al login */
+      
       res.redirect('/');
     } catch (error) {
       return res.status(500).json({

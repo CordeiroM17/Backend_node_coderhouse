@@ -42,7 +42,6 @@ class CartsService {
     this.productExistValidation(productToEdit);
 
     const { quantity } = quantityBody;
-    console.log(quantity, cartId, productToEdit);
     await carts.updateQuantity(quantity, cartId, productToEdit);
   }
 

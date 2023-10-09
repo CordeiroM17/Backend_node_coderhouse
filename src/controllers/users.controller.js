@@ -65,7 +65,6 @@ export const userController = {
         cart: req.user.cart,
         _id: req.user._id.toString(),
       };
-      console.log('logueado');
       return res.redirect('/products');
     } catch (error) {
       CustomError.createError({
@@ -86,20 +85,21 @@ export const userController = {
         return res.redirect('/');
       });
     } catch (error) {
-      return res.status(500).json({
-        status: 'error',
-        msg: 'could not exit the session',
-        data: { error },
+      CustomError.createError({
+        name: 'Logout Error',
+        cause: error,
+        message: 'Error trying to logout',
+        code: EErros.LOGOUT_ERROR,
       });
     }
   },
 
   failRegister: async function (req, res) {
-    return res.status(400).render('errorPage', { msg: 'No se pudo registrar, puede que su correo este duplicado' });
+    return res.status(400).render('errorPage', { msg: 'No se pudo registrar, puede que su correo este duplicado', backLink: '/auth/register' });
   },
 
   failLogin: async function (req, res) {
-    return res.status(400).render('errorPage', { msg: 'No se puedo ingresar, compruebe su email y contraseña' });
+    return res.status(400).render('errorPage', { msg: 'No se puedo ingresar, compruebe su email y contraseña', backLink: '/auth/login' });
   },
 
   sessionInformation: async function (req, res) {

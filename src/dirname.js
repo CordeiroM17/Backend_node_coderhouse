@@ -10,7 +10,6 @@ export const entorno = {
 };
 
 if (process.argv[2] != 'DEV' && process.argv[2] != 'PROD') {
-  console.log('Por favor indique PROD o DEV como tercer argumento');
   process.exit();
 }
 

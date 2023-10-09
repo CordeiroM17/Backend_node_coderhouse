@@ -1,11 +1,13 @@
 import passport from 'passport';
 import local from 'passport-local';
-import { createHash, isValidPassword } from './bcrypt.js';
+import fetch from 'node-fetch'
+import { isValidPassword } from './bcrypt.js';
 import { UserModel } from '../DAO/mongo/models/users.model.js';
 import GitHubStrategy from 'passport-github2';
 import { entorno } from '../dirname.js';
 import { users } from '../DAO/factory.js';
 import { usersService } from '../services/users.service.js';
+import { logger } from './logger.js';
 const LocalStrategy = local.Strategy;
 
 export function iniPassport() {
@@ -15,11 +17,11 @@ export function iniPassport() {
       try {
         const user = await users.findUserByEmail(username);
         if (!user) {
-          console.log('User Not Found with username (email) ' + username);
+          logger.warn('User Not Found with username (email) ' + username);
           return done(null, false);
         }
         if (!isValidPassword(password, user.password)) {
-          console.log('Invalid Password');
+          logger.warn('Invalid Password');
           return done(null, false);
         }
 
@@ -43,7 +45,7 @@ export function iniPassport() {
           let user = await users.findUserByEmail(username);
 
           if (user) {
-            console.log('User already exists');
+            logger.info('User already exists');
             return done(null, false);
           }
 
@@ -57,12 +59,11 @@ export function iniPassport() {
 
           let userCreated = await usersService.registerNewUser(newUser);
 
-          console.log(userCreated);
-          console.log('User Registration succesful');
+          logger.info('User Registration succesfull');
           return done(null, userCreated);
         } catch (e) {
-          console.log('Error in register');
-          console.log(e);
+          logger.error('Error in register');
+          logger.error(e);
           return done(e);
         }
       }
@@ -78,7 +79,6 @@ export function iniPassport() {
         callbackURL: entorno.GITHUB_PASSPORT_CALLBACK_URL,
       },
       async (accesToken, _, profile, done) => {
-        console.log(profile);
         try {
           const res = await fetch('https://api.github.com/user/emails', {
             headers: {
@@ -97,23 +97,25 @@ export function iniPassport() {
 
           let user = await UserModel.findOne({ email: profile.email });
           if (!user) {
+
             const newUser = {
               email: profile.email,
+              password: 'nopass',
               firstName: profile._json.name || profile._json.login || 'noname',
               lastName: 'nolast',
-              rol: false,
-              password: 'nopass',
+              age: profile.age || 18,
             };
-            let userCreated = await UserModel.create(newUser);
-            console.log('User Registration succesful');
+
+            let userCreated = await usersService.registerNewUser(newUser);
+            logger.info('User Registration succesfull');
             return done(null, userCreated);
           } else {
-            console.log('User already exists');
+            logger.info('User already exists');
             return done(null, user);
           }
         } catch (e) {
-          console.log('Error en auth github');
-          console.log(e);
+          logger.error('Error en auth github');
+          logger.error(e);
           return done(e);
         }
       }

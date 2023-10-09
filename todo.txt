@@ -1,29 +1,21 @@
-2 - Hacer manejo de errores con custom error y enumerarlos
-
 3 - Ver si hacer test para forgot password (opcional)
 
 4 - Ir a la clase 19 y ver el desafio complementario para hacer un usuario premium
 
 6 - Ver como es el tema del chat y como volver a meterlo (no obligatorio)
 
-8 - desplegar la app
-
-9 - Finalizar las vistas pendientes para modulos que influyan en la compra del cart
+9 - Estilar las vistas
 
 10 - Hacer una get para traer usuarios pasados por un dto y eliminar usuarios que no se hayan conectado hace mas de 2 dias
 
-11 - Revisar los env y hacer el de production
-
-12 - Sacar los console.log y borrar lo que no se usa
-
-13 - Sacar comentarios innecesarios
-
 14 - Revisar el tema del chat, premius y pasarela de pagos si da el tiempo (no obligatorio)
-
-15 - Hacer errores en factory
 
 16 - Hacer que passport vaya al servicio, no habiamos hecho caso y va al modelo
 
 17 - hacer que se vea el ticket en el correo que se manda luego del purchase
+
+18 - Hacer multer para archivos, ver video de youtube en historial
+
+19 - 
 
 LAST - Borrar este archivo

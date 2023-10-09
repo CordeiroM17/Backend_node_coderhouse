@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,500&family=Roboto:wght@300;700&display=swap');
+
 :root {
     --delete:#8B0000;
     --primary-100:#7FB3D5;
@@ -17,6 +19,8 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Playfair Display', serif;
+    font-family: 'Roboto', sans-serif;
 }
 
 .realtimeproducts-container {
@@ -132,7 +136,6 @@ tbody tr td {
     padding: 10px;
     border-radius: 25px;
     color: var(--bg-100);
-
 }
 
 .profile__btn--logout {
@@ -302,7 +305,7 @@ body {
 
 /* Log in and Sign up */
 
-.main__register {
+.main__container {
     height: 100%; width: 100%;
     padding: 50px;
     background-color: var(--primary-100);
@@ -315,11 +318,14 @@ body {
     height: 100%; width: 100%;
     background-color: var(--bg-100);
     display: flex;
-    
 }
+
 
 .form__title {
     margin: 10px 0;
+    text-transform: uppercase;
+    font-size: xx-large;
+    font-weight: bold;
 }
 
 .section__login {
@@ -334,6 +340,40 @@ body {
 
 .section__login img {
     width: 500px;
+}
+
+.section__error {
+    height: 100%; width: 100%;
+    border-radius: 25px;
+    background-color: var(--white-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.section__error h1 {
+    text-transform: uppercase;
+    font-size: xx-large;
+    font-weight: bold;
+}
+
+.section__error h2 {
+    font-size: medium;
+    font-weight: bold;
+}
+
+.btn__back {
+    border: 2px solid var(--primary-100);
+    padding: 10px;
+    border-radius: 25px;
+    margin-top: 10px;
+
+    color: black;
+    text-decoration: none;
+
+    font-size: xx-large;
+    text-align: center;
 }
 
 .form__container {
@@ -383,6 +423,7 @@ body {
 .form__submit {
     margin: 20px 0;
     cursor: pointer;
+    text-transform: uppercase;
     background: var(--primary-300);
     border: none;
     color: var(--bg-200);

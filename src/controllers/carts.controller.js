@@ -38,7 +38,6 @@ export const cartsController = {
 
   createOneCart: async function (req, res) {
     try {
-      console.log("cart controller")
       const newCart = await cartsService.createCart();
       return res.status(200).send({
         status: 'Success',
