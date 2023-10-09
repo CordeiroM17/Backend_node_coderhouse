@@ -342,6 +342,16 @@ body {
     width: 500px;
 }
 
+.section__password {
+    height: 100%; width: 100%;
+    border-radius: 25px;
+    background-color: var(--white-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
 .section__error {
     height: 100%; width: 100%;
     border-radius: 25px;
@@ -352,13 +362,13 @@ body {
     flex-direction: column;
 }
 
-.section__error h1 {
+.section__error h1, .section__password h1 {
     text-transform: uppercase;
     font-size: xx-large;
     font-weight: bold;
 }
 
-.section__error h2 {
+.section__error h2, .section__password h2 {
     font-size: medium;
     font-weight: bold;
 }
