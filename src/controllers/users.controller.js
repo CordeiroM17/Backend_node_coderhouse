@@ -1,7 +1,8 @@
 import CurrentDTO from '../dto/current.dto.js';
 import CustomError from '../services/errors/customError.js';
-import EErros from '../services/errors/enums.js';
+import EErrors from '../services/errors/enums.js';
 import { generateUserErrorInfo } from '../services/errors/info.js';
+import { usersService } from '../services/users.service.js';
 
 export const userController = {
   registerGet: async function (req, res) {
@@ -9,8 +10,8 @@ export const userController = {
       return res.render('registerForm');
     } catch (error) {
       return res.status(500).json({
-        status: 'error',
-        msg: 'the page is not found',
+        status: 'Error',
+        msg: 'Something went wrongd',
         data: { error },
       });
     }
@@ -19,7 +20,7 @@ export const userController = {
   registerPost: async function (req, res) {
     try {
       if (!req.user) {
-        return res.json({ error: 'something went wrong' });
+        return res.json({ error: 'Something went wrong' });
       }
 
       req.session.user = {
@@ -34,7 +35,7 @@ export const userController = {
         name: 'User creation error',
         cause: generateUserErrorInfo(req.user),
         message: 'Error trying to create user',
-        code: EErros.INVALID_TYPES_ERROR,
+        code: EErrors.INVALID_TYPES_ERROR,
       });
     }
   },
@@ -44,8 +45,8 @@ export const userController = {
       return res.render('loginForm', {});
     } catch (error) {
       return res.status(500).json({
-        status: 'error',
-        msg: 'the page is not found',
+        status: 'Error',
+        msg: 'Something went wrong',
         data: { error },
       });
     }
@@ -71,7 +72,7 @@ export const userController = {
         name: 'User login error',
         cause: generateUserErrorInfo(req.user),
         message: 'Error trying to login a user',
-        code: EErros.INVALID_TYPES_ERROR,
+        code: EErrors.INVALID_TYPES_ERROR,
       });
     }
   },
@@ -89,7 +90,7 @@ export const userController = {
         name: 'Logout Error',
         cause: error,
         message: 'Error trying to logout',
-        code: EErros.LOGOUT_ERROR,
+        code: EErrors.LOGOUT_ERROR,
       });
     }
   },
@@ -99,21 +100,21 @@ export const userController = {
   },
 
   failLogin: async function (req, res) {
-    return res.status(400).render('errorPage', { msg: 'No se puedo ingresar, compruebe su email y contraseña', backLink: '/auth/login' });
+    return res.status(400).render('errorPage', { msg: 'No se pudo ingresar, compruebe su email y contraseña', backLink: '/auth/login' });
   },
 
   sessionInformation: async function (req, res) {
     try {
       const currentDto = new CurrentDTO(req.session.user);
       return res.status(200).json({
-        status: 'succes',
+        status: 'Success',
         msg: 'This is your session',
         data: currentDto,
       });
     } catch (error) {
       return res.status(500).json({
-        status: 'error',
-        msg: 'session not exist',
+        status: 'Error',
+        msg: 'Something went wrong',
         data: { error },
       });
     }
@@ -125,7 +126,24 @@ export const userController = {
       // Successful authentication, redirect products
       return res.redirect('/products');
     } catch (error) {
-      return res.status(400).render('errorPage', { msg: 'El email o contraseña incorrecta' });
+      return res.status(400).render('errorPage', { msg: 'No se pudo ingresar, intente mas tarde', backLink: '/' });
+    }
+  },
+
+  cleanUsersAfterTwoDays: async function (req, res) {
+    try {
+      const usersDeleted = await usersService.cleanUsers();
+      return res.status(200).json({
+        status: 'Success',
+        msg: `Se eliminaron ${usersDeleted} usuarios`,
+        data: {},
+      });
+    } catch (error) {
+      return res.status(400).json({
+        status: 'Error',
+        msg: 'No se pudo borrar los usuarios',
+        data: {},
+      });
     }
   },
 };

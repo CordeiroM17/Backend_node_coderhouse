@@ -1,13 +1,12 @@
 import passport from 'passport';
 import local from 'passport-local';
-import fetch from 'node-fetch'
+import fetch from 'node-fetch';
 import { isValidPassword } from './bcrypt.js';
-import { UserModel } from '../DAO/mongo/models/users.model.js';
 import GitHubStrategy from 'passport-github2';
 import { entorno } from '../dirname.js';
-import { users } from '../DAO/factory.js';
 import { usersService } from '../services/users.service.js';
 import { logger } from './logger.js';
+import crypto from 'crypto';
 const LocalStrategy = local.Strategy;
 
 export function iniPassport() {
@@ -15,7 +14,7 @@ export function iniPassport() {
     'login',
     new LocalStrategy({ usernameField: 'email' }, async (username, password, done) => {
       try {
-        const user = await users.findUserByEmail(username);
+        const user = await usersService.findUserByEmail(username);
         if (!user) {
           logger.warn('User Not Found with username (email) ' + username);
           return done(null, false);
@@ -25,6 +24,7 @@ export function iniPassport() {
           return done(null, false);
         }
 
+        await usersService.lastLoggedIn(user);
         return done(null, user);
       } catch (err) {
         return done(err);
@@ -42,7 +42,7 @@ export function iniPassport() {
       async (req, username, password, done) => {
         try {
           const { firstName, lastName, age } = req.body;
-          let user = await users.findUserByEmail(username);
+          let user = await usersService.findUserByEmail(username);
 
           if (user) {
             logger.info('User already exists');
@@ -95,12 +95,13 @@ export function iniPassport() {
           }
           profile.email = emailDetail.email;
 
-          let user = await UserModel.findOne({ email: profile.email });
+          let user = await usersService.findUserByEmail(profile.email);
           if (!user) {
+            const passwordRandom = crypto.randomBytes(32).toString('hex');
 
             const newUser = {
               email: profile.email,
-              password: 'nopass',
+              password: passwordRandom,
               firstName: profile._json.name || profile._json.login || 'noname',
               lastName: 'nolast',
               age: profile.age || 18,
@@ -108,9 +109,11 @@ export function iniPassport() {
 
             let userCreated = await usersService.registerNewUser(newUser);
             logger.info('User Registration succesfull');
+            await usersService.lastLoggedIn(user);
             return done(null, userCreated);
           } else {
             logger.info('User already exists');
+            await usersService.lastLoggedIn(user);
             return done(null, user);
           }
         } catch (e) {
@@ -127,7 +130,7 @@ export function iniPassport() {
   });
 
   passport.deserializeUser(async (id, done) => {
-    let user = await UserModel.findById(id);
+    let user = await usersService.findUserById(id);
     done(null, user);
   });
 }

@@ -17,6 +17,16 @@ class UsersService {
     }
   }
 
+  async findUserById(id) {
+    const userFound = await users.findUserById(id);
+    return userFound;
+  }
+
+  async findUserByEmail(email) {
+    const userFound = await users.findUserByEmail(email);
+    return userFound;
+  }
+
   async registerNewUser(fields) {
     this.registerFieldsComprobation(fields);
     const { _id } = await cartsService.createCart();
@@ -43,8 +53,38 @@ class UsersService {
     if (user) {
       await users.changePassword(id, password);
     } else {
-      res.send('no existe el correo');
+      res.send('No existe el correo');
     }
+  }
+
+  async lastLoggedIn(user) {
+    const lastLogginDate = new Date();
+    const idUser = user._id.toString();
+    await users.updateLastLoggedIn(idUser, lastLogginDate);
+  }
+
+  areTwoDaysHavePassed(date) {
+    const twoDaysAfter = 2 * 24 * 60 * 60 * 1000;
+    const actualDate = new Date();
+
+    return date - actualDate > twoDaysAfter;
+  }
+
+  async cleanUsers() {
+    const allUser = await users.getAllUsers();
+    let usersDeleted = 0;
+    for (let i = 0; i < allUser.length; i++) {
+      let user = allUser[i];
+
+      let userId = user._id;
+      let userLastConnectionDate = user.lastLoggedIn;
+
+      if (this.areTwoDaysHavePassed(userLastConnectionDate)) {
+        await users.deleteUserAfterTwoDays(userId);
+        usersDeleted = usersDeleted + 1;
+      }
+    }
+    return usersDeleted;
   }
 }
 

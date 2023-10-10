@@ -1,16 +1,21 @@
+import { entorno } from '../dirname.js';
 import { cartsService } from '../services/carts.service.js';
 import CustomError from '../services/errors/customError.js';
-import EErros from '../services/errors/enums.js';
+import EErrors from '../services/errors/enums.js';
 import { productService } from '../services/products.service.js';
-import { generateProduct } from '../utils/generateFakeProduct.js';
-import { logger } from '../utils/logger.js';
+import { ticketsService } from '../services/tickets.service.js';
 
 export const viewController = {
   getHomePage: async function (req, res) {
     try {
       return res.status(200).render('home');
     } catch (error) {
-      return res.status(400).render('errorPage', { msg: 'Page not found, please try later' });
+      CustomError.createError({
+        name: 'Page not found',
+        cause: 'Page not found',
+        message: 'Page not found',
+        code: EErrors.PAGE_NOT_FOUND,
+      });
     }
   },
 
@@ -18,7 +23,12 @@ export const viewController = {
     try {
       return res.status(200).render('registerForm');
     } catch (error) {
-      return res.status(400).render('errorPage', { msg: 'Page not found, please try later' });
+      CustomError.createError({
+        name: 'Page not found',
+        cause: 'Page not found',
+        message: 'Page not found',
+        code: EErrors.PAGE_NOT_FOUND,
+      });
     }
   },
 
@@ -49,10 +59,15 @@ export const viewController = {
         page: products.page,
         hasPrevPage: products.hasPrevPage,
         hasNextPage: products.hasNextPage,
+        url: entorno.API_URL
       });
     } catch (error) {
-      logger.error(`${error}`);
-      return res.status(400).render('errorPage', { msg: 'Please Login' });
+      CustomError.createError({
+        name: 'Page not found',
+        cause: 'Page not found',
+        message: 'Page not found',
+        code: EErrors.PAGE_NOT_FOUND,
+      });
     }
   },
 
@@ -60,19 +75,27 @@ export const viewController = {
     const cartId = req.params.cid;
     try {
       const cart = await cartsService.getCartById(cartId);
+      let totalAmount = 0 
       const productsMap = cart.productos.map((prod) => {
+        totalAmount = totalAmount + prod.idProduct.price * prod.quantity
         return {
           id: prod._id.toString(),
           title: prod.idProduct.title,
+          thubmail: prod.idProduct.thubmail,
           description: prod.idProduct.description,
           price: prod.idProduct.price,
           quantity: prod.quantity,
         };
       });
       const cartEmpty = productsMap.length === 0;
-      return res.status(200).render('carts', { productsMap, cartEmpty, cartId });
+      return res.status(200).render('carts', { productsMap, cartEmpty, cartId, totalAmount });
     } catch (error) {
-      return res.status(400).render('errorPage', { msg: 'Please Login' });
+      CustomError.createError({
+        name: 'Page not found',
+        cause: 'Page not found',
+        message: 'Page not found',
+        code: EErrors.PAGE_NOT_FOUND,
+      });
     }
   },
 
@@ -80,22 +103,22 @@ export const viewController = {
     res.send('esto solo lo puede ver el admin');
   },
 
-  getHundredProducts: async function (req, res) {
+  getTicketIdPage: async function (req, res) {
+    const ticketId = req.params.tid;
     try {
-      const prod = generateProduct();
-
-      return res.status(201).json({
-        status: 'success',
-        msg: 'Take 100 products in 1 page',
-        data: prod,
-      });
+      const ticketFound = await ticketsService.getTicket(ticketId);
+      return res.status(200).json({
+        status: "Success",
+        msg: 'Este es tu ticket',
+        data: ticketFound
+      })
     } catch (error) {
       CustomError.createError({
-        name: 'Products get error',
-        cause: '',
-        message: 'Error trying to get a hundred products in one page',
-        code: EErros.INVALID_TYPES_ERROR,
+        name: 'Page not found',
+        cause: 'Page not found',
+        message: 'Page not found',
+        code: EErrors.PAGE_NOT_FOUND,
       });
     }
-  },
+  }
 };

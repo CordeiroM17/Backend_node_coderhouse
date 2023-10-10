@@ -1,5 +1,4 @@
 import { Schema, model } from 'mongoose';
-import { cartsService } from '../../../services/carts.service.js'
 
 const schema = new Schema({
   email: { type: String, required: true, max: 100, unique: true },
@@ -9,6 +8,7 @@ const schema = new Schema({
   age: { type: Number },
   cart: { type: String },
   rol: { type: String, default: 'user', required: true },
+  lastLoggedIn: Date,
 });
 
 export const UserModel = model('users', schema);

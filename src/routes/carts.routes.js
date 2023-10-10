@@ -1,20 +1,20 @@
 import express from 'express';
 import { cartsController } from '../controllers/carts.controller.js';
-import { checkUser } from '../middleware/auth.js';
+import { checkCart, checkUser } from '../middleware/auth.js';
 export const cartsRouter = express.Router();
 
-cartsRouter.get('/:cid', checkUser, cartsController.showOneCart);
+cartsRouter.get('/:cid', checkUser, checkCart, cartsController.showOneCart);
 
-cartsRouter.post('/:cid/purchase', checkUser, cartsController.purchase);
+cartsRouter.post('/:cid/purchase', checkUser, checkCart, cartsController.purchase);
 
-cartsRouter.post('/', checkUser, cartsController.createOneCart);
+cartsRouter.post('/', checkUser, checkCart, cartsController.createOneCart);
 
-cartsRouter.post('/:cid/products/:pid', checkUser, cartsController.addProductToCart);
+cartsRouter.post('/:cid/products/:pid', checkUser, checkCart, cartsController.addProductToCart);
 
-cartsRouter.delete('/:cid/products/:pid', checkUser, cartsController.removeOneProductFromCart);
+cartsRouter.delete('/:cid/products/:pid', checkUser, checkCart, cartsController.removeOneProductFromCart);
 
-cartsRouter.delete('/:cid', checkUser, cartsController.removeAllProductsFromCart);
+cartsRouter.delete('/:cid', checkUser, checkCart, cartsController.removeAllProductsFromCart);
 
-cartsRouter.put('/:cid/products/:pid', checkUser, cartsController.updateProductQuantity);
+cartsRouter.put('/:cid/products/:pid', checkUser, checkCart, cartsController.updateProductQuantity);
 
-cartsRouter.put('/:cid', checkUser, cartsController.addArrayProducts);
+cartsRouter.put('/:cid', checkUser, checkCart, cartsController.addArrayProducts);

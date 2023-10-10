@@ -1,14 +1,17 @@
+import CustomError from '../services/errors/customError.js';
+import EErrors from '../services/errors/enums.js';
 import { forgotPasswordService } from '../services/forgotPassword.service.js';
 
 export const forgotPasswordController = {
   forgotPasswordGet: async function (req, res) {
     try {
-      return res.render('forgotPassword');
+      return res.status(200).render('forgotPassword');
     } catch (error) {
-      return res.status(500).json({
-        status: 'error',
-        msg: 'the page is not found',
-        data: { error },
+      CustomError.createError({
+        name: 'Page not found',
+        cause: 'Page not found',
+        message: 'Page not found',
+        code: EErrors.PAGE_NOT_FOUND,
       });
     }
   },
@@ -19,10 +22,11 @@ export const forgotPasswordController = {
       await forgotPasswordService.createRecoverCode(email);
       return res.status(200).render('checkInYourEmail');
     } catch (error) {
-      return res.status(500).json({
-        status: 'error',
-        msg: 'the page is not found',
-        data: { error },
+      CustomError.createError({
+        name: 'El usuario no existe',
+        cause: 'El usuario no posee una cuenta',
+        message: 'El usuario no posee una cuenta, el correo puede usarse',
+        code: EErrors.USER_NOT_EXIST,
       });
     }
   },
@@ -31,9 +35,14 @@ export const forgotPasswordController = {
     try {
       const { code, email } = req.query;
       await forgotPasswordService.foundRecoverCode(code, email);
-      return res.render('recoverPassword', { code, email });
+      return res.status(200).render('recoverPassword', { code, email });
     } catch (error) {
-      return res.status(400).render('errorPage', { msg: 'Page not found, please try later' });
+      CustomError.createError({
+        name: 'Page not found',
+        cause: 'Page not found',
+        message: 'Page not found',
+        code: EErrors.PAGE_NOT_FOUND,
+      });
     }
   },
 
@@ -43,11 +52,11 @@ export const forgotPasswordController = {
 
       await forgotPasswordService.putNewPassword(code, email, password);
       
-      res.redirect('/');
+      return res.redirect('/auth/login');
     } catch (error) {
       return res.status(500).json({
-        status: 'error',
-        msg: 'could not exit the session',
+        status: 'Error',
+        msg: 'Could not exit the session',
         data: { error },
       });
     }

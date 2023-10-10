@@ -1,3 +1,4 @@
+import { entorno } from '../dirname.js';
 import { productService } from '../services/products.service.js';
 import { logger } from '../utils/logger.js';
 

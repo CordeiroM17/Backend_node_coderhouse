@@ -6,16 +6,24 @@
 
 9 - Estilar las vistas
 
-10 - Hacer una get para traer usuarios pasados por un dto y eliminar usuarios que no se hayan conectado hace mas de 2 dias
+10 - Hacer una get para traer usuarios pasados por un dto
 
 14 - Revisar el tema del chat, premius y pasarela de pagos si da el tiempo (no obligatorio)
 
-16 - Hacer que passport vaya al servicio, no habiamos hecho caso y va al modelo
-
-17 - hacer que se vea el ticket en el correo que se manda luego del purchase
+17 - Hacer que se vea el ticket en el correo que se manda luego del purchase
 
 18 - Hacer multer para archivos, ver video de youtube en historial
 
-19 - 
+19 - En el alert del cart no lo agrega todavia y en el de register no tiene suficiente tiempo como para que se note (FIX)
+
+20 - Arreglar los correos, que queden mas cuquis (Opcional, solo queda hacer el de ticket)
+
+22 - Arreglar iniciar sesion con github en production
+
+25 - Si entro a products sin logearme y me envia a la pagina de error luego puedo volver para atras y ver la pagina products (FIX ERROR)
+
+26 - Cuando entro a products renderiza todo bien pero me tira el error de Non existent path (FIX ERROR)
+
+28 - En el test hay que añadir los middlewares de checkCart y checkAdmin
 
 LAST - Borrar este archivo

@@ -1,6 +1,12 @@
-const EErros = {
+const EErrors = {
   INVALID_TYPES_ERROR: 1,
-  LOGOUT_ERROR: 2
+  LOGOUT_ERROR: 2,
+  PAGE_NOT_FOUND: 3,
+  USER_NOT_LOGGED: 4,
+  USER_NOT_ADMIN: 5,
+  USER_NOT_CART: 6,
+  USER_NOT_EXIST: 7,
+  USER_NOT_TICKET: 8
 };
 
-export default EErros;
+export default EErrors;

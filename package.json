@@ -9,6 +9,7 @@
   },
   "scripts": {
     "test-endpoints": "mocha test/Endpoints.test.js",
+    "test-cien-products": "mocha test/CrearCienProducts.test.js",
     "dev": "nodemon -e yaml,js src/app.js DEV",
     "start": "node src/app.js PROD"
   },
@@ -23,6 +24,7 @@
     "crypto": "^1.0.1",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "express-async-errors": "^3.1.1",
     "express-compression": "^1.0.2",
     "express-handlebars": "^7.0.7",
     "express-session": "^1.17.3",
@@ -32,6 +34,7 @@
     "multer": "^1.4.5-lts.1",
     "node-fetch": "^3.3.2",
     "nodemailer": "^6.9.4",
+    "nodemailer-express-handlebars": "^6.1.0",
     "passport": "^0.6.0",
     "passport-github2": "^0.1.12",
     "passport-local": "^1.0.0",

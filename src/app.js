@@ -1,5 +1,6 @@
 import express from 'express';
 import handlebars from 'express-handlebars';
+import 'express-async-errors';
 import { cartsRouter } from './routes/carts.routes.js';
 import { productsRouter } from './routes/products.routes.js';
 import { viewsRouter } from './routes/views.routes.js';
@@ -12,12 +13,14 @@ import { iniPassport } from './utils/passport.js';
 import passport from 'passport';
 import { entorno } from './dirname.js';
 import { factory } from './DAO/factory.js';
-import errorHandler from './middleware/error.js';
+import { errorHandler } from './middleware/error.js';
 import compression from 'express-compression';
 import { forgotPasswordRouter } from './routes/forgotPassword.routes.js';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUiExpress from 'swagger-ui-express';
 import { logger } from './utils/logger.js';
+import CustomError from './services/errors/customError.js';
+import EErrors from './services/errors/enums.js';
 
 const app = express();
 factory();
@@ -79,12 +82,17 @@ app.use('/auth', userRouter);
 app.use('/password', forgotPasswordRouter);
 app.use('/', viewsRouter);
 
-app.get('*', (req, res) => {
-  return res.status(404).json({
-    status: 'error',
-    msg: 'Page not found',
-    data: {},
-  });
+app.get('*', (req, res, next) => {
+  try {
+    CustomError.createError({
+      name: 'Page not found',
+      cause: 'Non existent path',
+      message: 'The page may not exist',
+      code: EErrors.PAGE_NOT_FOUND,
+    });
+  } catch (error) {
+    next(error);
+  }
 });
 
 app.listen(entorno.PORT, () => {

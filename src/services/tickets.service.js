@@ -12,7 +12,7 @@ class TicketsService {
     // Sacar id del ticket para ponerselo como code
     const ticket = await tickets.createTicket(email, products, finalPrice);
 
-    this.sendEmail(email);
+    this.sendEmail(email, ticket);
     return ticket;
   }
 
@@ -25,17 +25,23 @@ class TicketsService {
     return finalPrice;
   };
 
-  async sendEmail(email) {
+  async sendEmail(email, ticket) {
     await transport.sendMail({
       from: entorno.GOOGLE_EMAIL,
       to: email,
       subject: 'Tu compra fue un exito',
       html: `
             <div>
-              <h1>Le dejamos el detalle de su compra a continuacion:</h1>
+              <h1>Felicidades, su compra a sido finalizada con exito</h1>
+              <h2>Tambien le dejamos su codigo de compra: ${ticket.code}</h2>
             </div>
             `,
     });
+  }
+
+  async getTicket(ticketId) {
+    const ticket = await tickets.getTicket(ticketId);
+    return ticket;
   }
 }
 

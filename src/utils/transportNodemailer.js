@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer';
-import { entorno } from '../dirname.js';
+import { __dirname, entorno } from '../dirname.js';
 
 export const transport = nodemailer.createTransport({
   service: 'gmail',
