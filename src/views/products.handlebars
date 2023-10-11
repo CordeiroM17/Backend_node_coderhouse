@@ -6,7 +6,7 @@
                 <a class="profile__btn--secret" href='/carts/{{cart}}'>Cart<a></a>
             </li>
             <li>
-                <a class="profile__btn--secret" href='/auth/current'>Ver perfil<a></a>
+                <a class="profile__btn--secret" href='/profile'>Ver perfil<a></a>
             </li>
             <li>
                 <a class="profile__btn--logout" href="/auth/logout">Logout</a>
@@ -28,7 +28,9 @@
                     </div>
                     <div class="card__btn">
                         <p>${{this.price}}</p>
-                        <button type="button" class="btn-add-to-cart" value="{{../url}}/api/carts/{{../cart}}/products/{{this.id}}">Add to cart</button>
+                        <form>
+                            <button type="button" class="btn-add-to-cart" value="/api/carts/{{../cart}}/products/{{this.id}}">Add to cart</button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -37,37 +39,15 @@
     <section class="pagination__container">
         <div class="pagination__btn">
             {{#if hasPrevPage}}
-                <a href='{{url}}/products?page={{prevPage}}'>Prev</a>
+                <a href='/products?page={{prevPage}}'>Prev</a>
             {{/if}}
             <p>{{page}}</p>
             {{#if hasNextPage}}
-                <a href='{{url}}/products?page={{nextPage}}'>Next</a>
+                <a href='/products?page={{nextPage}}'>Next</a>
             {{/if}}
         </div>
     </section>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    let btnAddToCart = document.querySelectorAll('.btn-add-to-cart');
-
-    function setAddToCart(btnAddToCart) {
-        for (let btn of btnAddToCart) {
-            btn.addEventListener('click', async () => {
-                const response = await fetch(btn.value, {
-                    method: 'post'
-                })
-
-                if(response.ok) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'El producto fue añadido al carrito con exito',
-                    });
-                }
-            });
-        }
-    }
-
-    
-    setAddToCart(btnAddToCart);
-</script>
+<script src="js/productsSweetAlert.js"></script>

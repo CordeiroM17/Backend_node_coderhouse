@@ -1,108 +1,7 @@
 import CurrentDTO from '../dto/current.dto.js';
-import CustomError from '../services/errors/customError.js';
-import EErrors from '../services/errors/enums.js';
-import { generateUserErrorInfo } from '../services/errors/info.js';
 import { usersService } from '../services/users.service.js';
 
-export const userController = {
-  registerGet: async function (req, res) {
-    try {
-      return res.render('registerForm');
-    } catch (error) {
-      return res.status(500).json({
-        status: 'Error',
-        msg: 'Something went wrongd',
-        data: { error },
-      });
-    }
-  },
-
-  registerPost: async function (req, res) {
-    try {
-      if (!req.user) {
-        return res.json({ error: 'Something went wrong' });
-      }
-
-      req.session.user = {
-        email: req.user.email,
-        firstName: req.user.firstName,
-        rol: req.user.rol,
-        _id: req.user._id.toString(),
-      };
-      return res.redirect('/auth/login'); /* Aca deberia hacer un pop up y luego enviarlo al /auth/login */
-    } catch (error) {
-      CustomError.createError({
-        name: 'User creation error',
-        cause: generateUserErrorInfo(req.user),
-        message: 'Error trying to create user',
-        code: EErrors.INVALID_TYPES_ERROR,
-      });
-    }
-  },
-
-  loginGet: async function (req, res) {
-    try {
-      return res.render('loginForm', {});
-    } catch (error) {
-      return res.status(500).json({
-        status: 'Error',
-        msg: 'Something went wrong',
-        data: { error },
-      });
-    }
-  },
-
-  loginPost: async function (req, res) {
-    try {
-      if (!req.user) {
-        return res.json({ error: 'invalid credentials' });
-      }
-
-      req.session.user = {
-        email: req.user.email,
-        firstName: req.user.firstName,
-        lastName: req.user.lastName,
-        rol: req.user.rol,
-        cart: req.user.cart,
-        _id: req.user._id.toString(),
-      };
-      return res.redirect('/products');
-    } catch (error) {
-      CustomError.createError({
-        name: 'User login error',
-        cause: generateUserErrorInfo(req.user),
-        message: 'Error trying to login a user',
-        code: EErrors.INVALID_TYPES_ERROR,
-      });
-    }
-  },
-
-  logout: async function (req, res) {
-    try {
-      req.session.destroy((err) => {
-        if (err) {
-          return res.status(500).render('error', { error: 'no se pudo cerrar su session' });
-        }
-        return res.redirect('/');
-      });
-    } catch (error) {
-      CustomError.createError({
-        name: 'Logout Error',
-        cause: error,
-        message: 'Error trying to logout',
-        code: EErrors.LOGOUT_ERROR,
-      });
-    }
-  },
-
-  failRegister: async function (req, res) {
-    return res.status(400).render('errorPage', { msg: 'No se pudo registrar, puede que su correo este duplicado', backLink: '/auth/register' });
-  },
-
-  failLogin: async function (req, res) {
-    return res.status(400).render('errorPage', { msg: 'No se pudo ingresar, compruebe su email y contraseña', backLink: '/auth/login' });
-  },
-
+export const usersController = {
   sessionInformation: async function (req, res) {
     try {
       const currentDto = new CurrentDTO(req.session.user);
@@ -120,13 +19,20 @@ export const userController = {
     }
   },
 
-  githubLogin: async function (req, res) {
+  getAllUsers: async function (req, res) {
     try {
-      req.session.user = req.user;
-      // Successful authentication, redirect products
-      return res.redirect('/products');
+      const allUser = await usersService.getAllUsers();
+      return res.status(200).json({
+        status: 'success',
+        msg: 'All users',
+        data: { allUser },
+      });
     } catch (error) {
-      return res.status(400).render('errorPage', { msg: 'No se pudo ingresar, intente mas tarde', backLink: '/' });
+      return res.status(500).json({
+        status: 'Error',
+        msg: 'Something went wrongd',
+        data: { error },
+      });
     }
   },
 
@@ -139,11 +45,29 @@ export const userController = {
         data: {},
       });
     } catch (error) {
-      return res.status(400).json({
+      return res.status(404).json({
         status: 'Error',
         msg: 'No se pudo borrar los usuarios',
-        data: {},
+        data: { error },
       });
     }
   },
+
+  deleteUser: async function (req, res) {
+    const userId = req.params.uid
+    try {
+      await usersService.deleteOneUser(userId);
+      return res.status(204).json({
+        status: 'success',
+        msg: 'Usuario eliminado',
+        data: {},
+      })
+    } catch (error) {
+      return res.status(404).json({
+        status: 'Error',
+        msg: 'No se pudo borrar el usuario',
+        data: { error },
+      });
+    }
+  }
 };

@@ -1,11 +1,39 @@
-import { entorno } from '../dirname.js';
+import CurrentDTO from '../dto/current.dto.js';
 import { cartsService } from '../services/carts.service.js';
 import CustomError from '../services/errors/customError.js';
 import EErrors from '../services/errors/enums.js';
 import { productService } from '../services/products.service.js';
 import { ticketsService } from '../services/tickets.service.js';
+import { usersService } from '../services/users.service.js';
 
 export const viewController = {
+  getProfile: async function (req, res) {
+    let allUser;
+    try {
+      const currentDto = new CurrentDTO(req.session.user);
+      let { id, email, name, rol } = currentDto;
+
+      // Asigna a userRol el valor que tiene rol
+      const userRol = rol;
+      // Cambia el valor de rol a un boleando para poder usarlo en handlebars
+      if (rol == 'admin') {
+        rol = true;
+        allUser = await usersService.getAllUsers()
+      } else {
+        rol = false;
+      }
+
+      return res.status(200).render('profile', { id, email, name, rol, userRol, allUser });
+    } catch (error) {
+      CustomError.createError({
+        name: 'Page not found',
+        cause: error,
+        message: 'Page not found',
+        code: EErrors.PAGE_NOT_FOUND,
+      });
+    }
+  },
+
   getHomePage: async function (req, res) {
     try {
       return res.status(200).render('home');
@@ -59,7 +87,6 @@ export const viewController = {
         page: products.page,
         hasPrevPage: products.hasPrevPage,
         hasNextPage: products.hasNextPage,
-        url: entorno.API_URL
       });
     } catch (error) {
       CustomError.createError({
@@ -75,9 +102,9 @@ export const viewController = {
     const cartId = req.params.cid;
     try {
       const cart = await cartsService.getCartById(cartId);
-      let totalAmount = 0 
+      let totalAmount = 0;
       const productsMap = cart.productos.map((prod) => {
-        totalAmount = totalAmount + prod.idProduct.price * prod.quantity
+        totalAmount = totalAmount + prod.idProduct.price * prod.quantity;
         return {
           id: prod._id.toString(),
           title: prod.idProduct.title,
@@ -108,10 +135,10 @@ export const viewController = {
     try {
       const ticketFound = await ticketsService.getTicket(ticketId);
       return res.status(200).json({
-        status: "Success",
+        status: 'Success',
         msg: 'Este es tu ticket',
-        data: ticketFound
-      })
+        data: ticketFound,
+      });
     } catch (error) {
       CustomError.createError({
         name: 'Page not found',
@@ -120,5 +147,5 @@ export const viewController = {
         code: EErrors.PAGE_NOT_FOUND,
       });
     }
-  }
+  },
 };

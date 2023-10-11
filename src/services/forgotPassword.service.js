@@ -2,7 +2,7 @@ import { transport } from '../utils/transportNodemailer.js';
 import { entorno } from '../dirname.js';
 import { codes, users } from '../DAO/factory.js';
 import crypto from 'crypto';
-import { usersService } from './users.service.js';
+import { authService } from './auth.service.js';
 
 class ForgotPasswordService {
   async verifyDateExpire(expireDate) {
@@ -64,7 +64,7 @@ class ForgotPasswordService {
     this.foundRecoverCode(code, email);
 
     /* Hashear pass y meterlo a la base */
-    await usersService.changePassword(email, password);
+    await authService.changePassword(email, password);
   }
 }
 

@@ -297,6 +297,65 @@ tbody tr td img {
     flex-direction: column;
 }
 
+.section__profile {
+    height: 100%; width: 100%;
+    border-radius: 25px;
+    padding: 50px;
+    background-color: var(--white-color);
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+}
+
+.profile__container {
+    width: 50%;
+    
+    border-radius: 25px;
+    padding: 25px;
+}
+
+.user__admin {
+    width: 50%;
+    border-radius: 25px;
+    padding: 25px;
+}
+
+.user__admin--title {
+    display: flex;
+    justify-content: space-between;
+}
+
+.user__admin--title button {
+    background: none;
+    border: none;
+    background-color: var(--delete);
+    border-radius: 25px;
+    padding: 10px;
+    color: var(--white-color);
+    text-transform: uppercase;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.profile__container h1, .user__admin h2 {
+    text-transform: uppercase;
+    font-size: xx-large;
+    font-weight: bold;
+}
+
+.profile__table, .user__admin table {
+    width: 100%;
+}
+
+.profile__table tbody {
+    text-align: left;
+}
+
+.profile__data--title {
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
 .cart-section {
     display: flex;
     justify-content: space-between;

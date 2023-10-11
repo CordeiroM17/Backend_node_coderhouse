@@ -14,15 +14,7 @@
 
 18 - Hacer multer para archivos, ver video de youtube en historial
 
-19 - En el alert del cart no lo agrega todavia y en el de register no tiene suficiente tiempo como para que se note (FIX)
-
 20 - Arreglar los correos, que queden mas cuquis (Opcional, solo queda hacer el de ticket)
-
-22 - Arreglar iniciar sesion con github en production
-
-25 - Si entro a products sin logearme y me envia a la pagina de error luego puedo volver para atras y ver la pagina products (FIX ERROR)
-
-26 - Cuando entro a products renderiza todo bien pero me tira el error de Non existent path (FIX ERROR)
 
 28 - En el test hay que añadir los middlewares de checkCart y checkAdmin
 

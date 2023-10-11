@@ -4,7 +4,7 @@ import 'express-async-errors';
 import { cartsRouter } from './routes/carts.routes.js';
 import { productsRouter } from './routes/products.routes.js';
 import { viewsRouter } from './routes/views.routes.js';
-import { userRouter } from './routes/users.routes.js';
+import { authRouter } from './routes/auth.routes.js';
 import { __dirname } from './dirname.js';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
@@ -21,6 +21,7 @@ import swaggerUiExpress from 'swagger-ui-express';
 import { logger } from './utils/logger.js';
 import CustomError from './services/errors/customError.js';
 import EErrors from './services/errors/enums.js';
+import { usersRouter } from './routes/users.routes.js';
 
 const app = express();
 factory();
@@ -78,7 +79,8 @@ app.set('view engine', 'handlebars');
 // ENDPOINTS
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
-app.use('/auth', userRouter);
+app.use('/api/users', usersRouter);
+app.use('/auth', authRouter);
 app.use('/password', forgotPasswordRouter);
 app.use('/', viewsRouter);
 

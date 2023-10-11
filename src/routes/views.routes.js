@@ -13,4 +13,6 @@ viewsRouter.get('/carts/:cid', checkUser, checkCart, viewController.getCartByIdP
 
 viewsRouter.get('/admin', checkUser, checkAdmin, viewController.admin);
 
-viewsRouter.get('/ticket/:tid', checkUser, checkTicket, viewController.getTicketIdPage)
+viewsRouter.get('/ticket/:tid', checkUser, checkTicket, viewController.getTicketIdPage);
+
+viewsRouter.get('/profile', checkUser, viewController.getProfile);

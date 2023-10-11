@@ -1,7 +1,7 @@
 <main class='main__container'>
-  <section class="section__login">
+  <section class='section__login'>
     <div>
-        <img src="/assets/login.svg" alt="#"/>
+      <img src='/assets/login.svg' alt='#' />
     </div>
     <div class='form__container'>
       <h1 class='form__title'>Log in</h1>
@@ -13,14 +13,14 @@
       <form class='form__register' action='/auth/login' method='POST'>
 
         <label class='form__register__label'>Email</label>
-        <input id='email' name='email' type='email' required/>
+        <input id='email' name='email' type='email' required />
 
         <label class='form__register__label'>Password</label>
-        <input id='password' name='password' type='password' required/>
+        <input id='password' name='password' type='password' required />
 
         <a href='/password/forgotPassword'>Forgot your password?</a>
 
-        <input class='form__submit' type='submit' value='Login'/>
+        <input class='form__submit' type='submit' value='Login' />
       </form>
       <div class='form__register__footer'>
         <p>Don't have an account?</p>
@@ -28,4 +28,8 @@
       </div>
     </div>
   </section>
+  {{#if userCreated}}
+    <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+    <script src='js/registerSweetAlert.js'></script>
+  {{/if}}
 </main>

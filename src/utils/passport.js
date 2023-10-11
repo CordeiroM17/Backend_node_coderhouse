@@ -4,7 +4,7 @@ import fetch from 'node-fetch';
 import { isValidPassword } from './bcrypt.js';
 import GitHubStrategy from 'passport-github2';
 import { entorno } from '../dirname.js';
-import { usersService } from '../services/users.service.js';
+import { authService } from '../services/auth.service.js';
 import { logger } from './logger.js';
 import crypto from 'crypto';
 const LocalStrategy = local.Strategy;
@@ -14,7 +14,7 @@ export function iniPassport() {
     'login',
     new LocalStrategy({ usernameField: 'email' }, async (username, password, done) => {
       try {
-        const user = await usersService.findUserByEmail(username);
+        const user = await authService.findUserByEmail(username);
         if (!user) {
           logger.warn('User Not Found with username (email) ' + username);
           return done(null, false);
@@ -24,7 +24,7 @@ export function iniPassport() {
           return done(null, false);
         }
 
-        await usersService.lastLoggedIn(user);
+        await authService.lastLoggedIn(user);
         return done(null, user);
       } catch (err) {
         return done(err);
@@ -42,7 +42,7 @@ export function iniPassport() {
       async (req, username, password, done) => {
         try {
           const { firstName, lastName, age } = req.body;
-          let user = await usersService.findUserByEmail(username);
+          let user = await authService.findUserByEmail(username);
 
           if (user) {
             logger.info('User already exists');
@@ -57,7 +57,7 @@ export function iniPassport() {
             password,
           };
 
-          let userCreated = await usersService.registerNewUser(newUser);
+          let userCreated = await authService.registerNewUser(newUser);
 
           logger.info('User Registration succesfull');
           return done(null, userCreated);
@@ -95,7 +95,7 @@ export function iniPassport() {
           }
           profile.email = emailDetail.email;
 
-          let user = await usersService.findUserByEmail(profile.email);
+          let user = await authService.findUserByEmail(profile.email);
           if (!user) {
             const passwordRandom = crypto.randomBytes(32).toString('hex');
 
@@ -107,13 +107,12 @@ export function iniPassport() {
               age: profile.age || 18,
             };
 
-            let userCreated = await usersService.registerNewUser(newUser);
+            let userCreated = await authService.registerNewUser(newUser);
             logger.info('User Registration succesfull');
-            await usersService.lastLoggedIn(user);
             return done(null, userCreated);
           } else {
             logger.info('User already exists');
-            await usersService.lastLoggedIn(user);
+            await authService.lastLoggedIn(user);
             return done(null, user);
           }
         } catch (e) {
@@ -130,7 +129,7 @@ export function iniPassport() {
   });
 
   passport.deserializeUser(async (id, done) => {
-    let user = await usersService.findUserById(id);
+    let user = await authService.findUserById(id);
     done(null, user);
   });
 }

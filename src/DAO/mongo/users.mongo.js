@@ -32,7 +32,7 @@ export default class Users {
     await UserModel.findByIdAndUpdate({ _id: id }, { lastLoggedIn: date });
   };
 
-  deleteUserAfterTwoDays = async (id) => {
+  deleteOneUser = async (id) => {
     await UserModel.findByIdAndRemove(id);
-  };
+  }
 }
