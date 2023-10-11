@@ -12,7 +12,7 @@ export const viewController = {
     } catch (error) {
       CustomError.createError({
         name: 'Page not found',
-        cause: 'Page not found',
+        cause: error,
         message: 'Page not found',
         code: EErrors.PAGE_NOT_FOUND,
       });
@@ -25,7 +25,7 @@ export const viewController = {
     } catch (error) {
       CustomError.createError({
         name: 'Page not found',
-        cause: 'Page not found',
+        cause: error,
         message: 'Page not found',
         code: EErrors.PAGE_NOT_FOUND,
       });
@@ -64,7 +64,7 @@ export const viewController = {
     } catch (error) {
       CustomError.createError({
         name: 'Page not found',
-        cause: 'Page not found',
+        cause: error,
         message: 'Page not found',
         code: EErrors.PAGE_NOT_FOUND,
       });
@@ -92,7 +92,7 @@ export const viewController = {
     } catch (error) {
       CustomError.createError({
         name: 'Page not found',
-        cause: 'Page not found',
+        cause: error,
         message: 'Page not found',
         code: EErrors.PAGE_NOT_FOUND,
       });
@@ -115,7 +115,7 @@ export const viewController = {
     } catch (error) {
       CustomError.createError({
         name: 'Page not found',
-        cause: 'Page not found',
+        cause: error,
         message: 'Page not found',
         code: EErrors.PAGE_NOT_FOUND,
       });

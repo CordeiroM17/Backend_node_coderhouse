@@ -9,7 +9,7 @@ export const forgotPasswordController = {
     } catch (error) {
       CustomError.createError({
         name: 'Page not found',
-        cause: 'Page not found',
+        cause: error,
         message: 'Page not found',
         code: EErrors.PAGE_NOT_FOUND,
       });
@@ -24,7 +24,7 @@ export const forgotPasswordController = {
     } catch (error) {
       CustomError.createError({
         name: 'El usuario no existe',
-        cause: 'El usuario no posee una cuenta',
+        cause: error,
         message: 'El usuario no posee una cuenta, el correo puede usarse',
         code: EErrors.USER_NOT_EXIST,
       });
@@ -39,7 +39,7 @@ export const forgotPasswordController = {
     } catch (error) {
       CustomError.createError({
         name: 'Page not found',
-        cause: 'Page not found',
+        cause: error,
         message: 'Page not found',
         code: EErrors.PAGE_NOT_FOUND,
       });

@@ -29,7 +29,7 @@ export const userController = {
         rol: req.user.rol,
         _id: req.user._id.toString(),
       };
-      return res.redirect('/auth/login');
+      return res.redirect('/auth/login'); /* Aca deberia hacer un pop up y luego enviarlo al /auth/login */
     } catch (error) {
       CustomError.createError({
         name: 'User creation error',
