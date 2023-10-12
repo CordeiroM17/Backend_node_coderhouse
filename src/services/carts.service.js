@@ -68,11 +68,10 @@ class CartsService {
   async deleteProductFromCart(cartId, productId) {
     const cartFound = await this.getCartById(cartId);
     this.cartExistValidation(cartFound);
-
+    
     const productToDelete = await productService.getProductById(productId);
     this.productExistValidation(productToDelete);
-
-    await carts.deleteOneProductFormCart(cartId, productId);
+    return await carts.deleteOneProductFromCart(cartId, productId);
   }
 
   async createCart() {

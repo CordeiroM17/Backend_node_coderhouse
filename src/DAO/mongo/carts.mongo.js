@@ -47,7 +47,7 @@ export default class Carts {
     await CartsModel.findByIdAndUpdate({ _id: cartId }, { productos: [] });
   };
 
-  deleteOneProductFormCart = async (cartId, productId) => {
-    await CartsModel.updateOne({ _id: cartId }, { $pull: { productos: { idProduct: productId } } });
+  deleteOneProductFromCart = async (cartId, productId) => {
+    return await CartsModel.updateOne({ _id: cartId }, { $pull: { productos: { idProduct: productId } } });
   };
 }

@@ -1,12 +1,12 @@
 <header class="products__header">
-    <h2>Bienvenido {{firstName}}</h2>
+    <h2>Welcome {{firstName}}</h2>
     <nav>
         <ul>
             <li>
-                <a class="profile__btn--secret" href='/carts/{{cart}}'>Cart<a></a>
+                <a class="profile__btn--secret" href='/profile'>Profile<a></a>
             </li>
             <li>
-                <a class="profile__btn--secret" href='/profile'>Ver perfil<a></a>
+                <a class="profile__btn--secret" href='/carts/{{cart}}'>Cart<a></a>
             </li>
             <li>
                 <a class="profile__btn--logout" href="/auth/logout">Logout</a>
@@ -50,4 +50,4 @@
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="js/productsSweetAlert.js"></script>
+<script src="/js/productsSweetAlert.js"></script>

@@ -18,8 +18,6 @@ let user = {
   password: 'admin',
 };
 
-let emailUser;
-
 // GRUPO DE TEST. DESCRIPCION GENERAL.
 describe('Creando 100 productos', () => {
   before(async () => {

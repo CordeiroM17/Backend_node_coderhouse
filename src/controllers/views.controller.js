@@ -11,19 +11,19 @@ export const viewController = {
     let allUser;
     try {
       const currentDto = new CurrentDTO(req.session.user);
-      let { id, email, name, rol } = currentDto;
+      let { id, email, name, rol, age, cart } = currentDto;
 
       // Asigna a userRol el valor que tiene rol
       const userRol = rol;
       // Cambia el valor de rol a un boleando para poder usarlo en handlebars
       if (rol == 'admin') {
         rol = true;
-        allUser = await usersService.getAllUsers()
+        allUser = await usersService.getAllUsers();
       } else {
         rol = false;
       }
 
-      return res.status(200).render('profile', { id, email, name, rol, userRol, allUser });
+      return res.status(200).render('profile', { id, email, name, age, rol, cart, userRol, allUser });
     } catch (error) {
       CustomError.createError({
         name: 'Page not found',
@@ -106,7 +106,7 @@ export const viewController = {
       const productsMap = cart.productos.map((prod) => {
         totalAmount = totalAmount + prod.idProduct.price * prod.quantity;
         return {
-          id: prod._id.toString(),
+          id: prod.idProduct._id.toString(),
           title: prod.idProduct.title,
           thubmail: prod.idProduct.thubmail,
           description: prod.idProduct.description,

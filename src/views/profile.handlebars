@@ -1,33 +1,63 @@
-<main class="main__container">
+<header class="products__header">
+    <h2>This is your profile</h2>
+    <nav>
+        <ul>
+            <li>
+                <a class="profile__btn--secret" href='/products'>Products<a></a>
+            </li>
+            <li>
+                <a class="profile__btn--secret" href='/carts/{{cart}}'>Cart<a></a>
+            </li>
+            
+            <li>
+                <a class="profile__btn--logout" href="/auth/logout">Logout</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main__container--profile">
     <section class="section__profile">
         <div class="profile__container">
-            <h1>Profile</h1>
-            <table class="profile__table">
-                <tbody>
-                    <tr>
-                        <td class="profile__data--title">Id</td>
-                        <td>{{id}}</td>
-                    </tr>
-                    <tr>
-                        <td class="profile__data--title">Fullname</td>
-                        <td>{{name}}</td>
-                    </tr>
-                    <tr>
-                        <td class="profile__data--title">Email</td>
-                        <td>{{email}}</td>
-                    </tr>
-                    <tr>
-                        <td class="profile__data--title">Rol</td>
-                        <td>{{userRol}}</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="profile__information">
+                <h1>Personal information</h1>
+                <table class="profile__table">
+                    <tbody>
+                        <tr>
+                            <td class="profile__data--title">Profile Id</td>
+                            <td>{{id}}</td>
+                        </tr>
+                        <tr>
+                            <td class="profile__data--title">Fullname</td>
+                            <td>{{name}}</td>
+                        </tr>
+                        <tr>
+                            <td class="profile__data--title">Age</td>
+                            <td>{{age}}</td>
+                        </tr>
+                        <tr>
+                            <td class="profile__data--title">Email</td>
+                            <td>{{email}}</td>
+                        </tr>
+                        <tr>
+                            <td class="profile__data--title">Cart ID</td>
+                            <td>{{cart}}</td>
+                        </tr>
+                        <tr>
+                            <td class="profile__data--title">Rol</td>
+                            <td>{{userRol}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="profile__image">
+                <img src='/assets/login.svg' alt='#'/>
+            </div>
         </div>
         {{#if rol}}
             <div class="user__admin">
                 <div class="user__admin--title">
-                    <h2>Eliminar usuarios</h2>
-                    <button type="button" class="usersClear">Limpieza de usuarios</button>
+                    <h2>Delete users</h2>
+                    <button type="button" class="usersClear">Clear users</button>
                 </div>
                 <table>
                     <thead>
@@ -43,7 +73,7 @@
                                 <td>{{this.email}}</td>
                                 <td>{{this.rol}}</td>
                                 <td>
-                                    <button type="button" class="btn-delete" value={{this.id}}>
+                                    <button type="button" class="btn-delete" id={{this._id}} value={{this.email}} >
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
                                         </svg>
@@ -54,12 +84,8 @@
                     </tbody>
                 </table>
             </div>
-        {{else}}
-            <div>
-                <h1>Pa no sos admin</h1>
-            </div>
         {{/if}}
     </section>
 </main>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="js/profileSweetAlert.js"></script>
+<script src="/js/profileSweetAlert.js"></script>

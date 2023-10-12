@@ -10,7 +10,7 @@ function setAddToCart(btnAddToCart) {
       if (response.ok) {
         Swal.fire({
           icon: 'success',
-          title: 'El producto fue añadido al carrito con exito',
+          title: 'The product was added to the cart successfully',
           toast: true,
           position: 'top',
           timer: 3000,
