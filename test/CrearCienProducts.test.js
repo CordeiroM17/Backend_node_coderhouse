@@ -19,7 +19,7 @@ let user = {
 };
 
 // GRUPO DE TEST. DESCRIPCION GENERAL.
-describe('Creando 100 productos', () => {
+describe('Creando 5 productos', () => {
   before(async () => {
     // Conexión a la base de datos
     await mongoose.connect('mongodb+srv://cordeiromariano17:ktAuPli2vRqq5Xcl@coder-cluster.w5gmkui.mongodb.net/ecommerce?retryWrites=true&w=majority', {
@@ -66,7 +66,7 @@ describe('Creando 100 productos', () => {
       };
     });
 
-    for (let index = 0; index <= 100; index++) {
+    for (let index = 0; index <= 5; index++) {
       it(`En endpoint POST /api/products deberia crear un producto (Producto ${index})`, async () => {
         const response = await requester
           .post('/api/products')

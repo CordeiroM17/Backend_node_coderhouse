@@ -150,8 +150,19 @@ export const viewController = {
           quantity: prod.quantity,
         };
       });
+
+      
+
       const cartEmpty = productsMap.length === 0;
-      return res.status(200).render('carts', { productsMap, cartEmpty, cartId, totalAmount });
+
+      let rol;
+      if (req.session.user?.rol == 'admin') {
+        rol = true;
+      } else {
+        rol = false;
+      }
+
+      return res.status(200).render('carts', { productsMap, cartEmpty, cartId, totalAmount, rol });
     } catch (error) {
       CustomError.createError({
         name: 'Page not found',
