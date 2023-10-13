@@ -11,6 +11,7 @@ let stock = document.getElementById('form-new-product-stock');
 
 formProducts.addEventListener('submit', (e) => {
   e.preventDefault();
+
   let newProduct = {
     title: title.value,
     description: description.value,
@@ -19,20 +20,23 @@ formProducts.addEventListener('submit', (e) => {
     code: code.value,
     stock: stock.value,
   };
+
+  formProducts.reset();
+
   socket.emit('new-product-created', newProduct);
 });
 
 socket.on('products', (products) => {
   if (products) {
+    products = products.docs;
     let lastProduct = products.slice(-1).pop();
     let container = document.getElementById('dinamic-product-list');
     let data = document.createElement('tr');
     container.append(data);
-    data.innerHTML = `<td>${lastProduct.id}</td>
-                      <td>${lastProduct.title}</td>
-                      <td>${lastProduct.description}</td>
-                      <td>${lastProduct.price}</td>
+    data.innerHTML = `
                       <td>${lastProduct.thubmail}</td>
+                      <td>${lastProduct.title}</td>
+                      <td>${lastProduct.price}</td>
                       <td>${lastProduct.code}</td>
                       <td>${lastProduct.stock}</td>
                       <td>
@@ -46,6 +50,10 @@ socket.on('products', (products) => {
 
     btnDelete = document.querySelectorAll('.btn-delete');
     setDelete(btnDelete);
+    Swal.fire({
+      icon: 'success',
+      title: 'Product created',
+    });
   } else {
     Swal.fire({
       title: 'duplicate code',

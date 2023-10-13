@@ -7,6 +7,34 @@ import { ticketsService } from '../services/tickets.service.js';
 import { usersService } from '../services/users.service.js';
 
 export const viewController = {
+  getRealTimeProducts: async function (req, res) {
+    try {
+      const products = await productService.getProducts();
+
+      let cart = req.session.user?.cart;
+
+      let allProducts = products.docs.map((prod) => {
+        return {
+          id: prod._id.toString(),
+          title: prod.title,
+          thubmail: prod.thubmail,
+          price: prod.price,
+          code: prod.code,
+          stock: prod.stock,
+        };
+      });
+
+      return res.render('realTimeProducts', { allProducts, cart });
+    } catch (error) {
+      CustomError.createError({
+        name: 'Page not found',
+        cause: error,
+        message: 'Page not found',
+        code: EErrors.PAGE_NOT_FOUND,
+      });
+    }
+  },
+
   getProfile: async function (req, res) {
     let allUser;
     try {
@@ -75,11 +103,19 @@ export const viewController = {
           stock: prod.stock,
         };
       });
+
+      let rol;
+      if (req.session.user?.rol == 'admin') {
+        rol = true;
+      } else {
+        rol = false;
+      }
+
       return res.status(200).render('products', {
         status: 'success',
         payload: productsMap,
         firstName: req.session.user?.firstName,
-        rol: req.session.user?.rol,
+        rol: rol,
         cart: req.session.user?.cart,
         totalPages: products.totalPages,
         prevPage: products.prevPage,

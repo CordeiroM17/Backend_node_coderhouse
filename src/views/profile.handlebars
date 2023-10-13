@@ -2,13 +2,17 @@
     <h2>This is your profile</h2>
     <nav>
         <ul>
+            {{#if rol}}
+                <li>
+                    <a class="profile__btn--secret" href='/realtimeproducts'>Admin Products<a></a>
+                </li>
+            {{/if}}
             <li>
                 <a class="profile__btn--secret" href='/products'>Products<a></a>
             </li>
             <li>
                 <a class="profile__btn--secret" href='/carts/{{cart}}'>Cart<a></a>
             </li>
-            
             <li>
                 <a class="profile__btn--logout" href="/auth/logout">Logout</a>
             </li>

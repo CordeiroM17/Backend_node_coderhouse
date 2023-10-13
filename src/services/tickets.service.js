@@ -33,7 +33,13 @@ class TicketsService {
       html: `
             <div>
               <h1>Felicidades, su compra a sido finalizada con exito</h1>
-              <h2>Tambien le dejamos su codigo de compra: ${ticket.code}</h2>
+              <h3>Te dejamos algunos datos que podrian serte de ayuda</h3>
+              <ul>
+                <li>Comprador: ${ticket.purchaser}</li>
+                <li>Total: ${ticket.amount}</li>
+                <li>Fecha: ${ticket.createdAt}</li>
+                <li>Codigo de compra: ${ticket.code}</li>
+              </ul>
             </div>
             `,
     });

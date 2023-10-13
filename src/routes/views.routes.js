@@ -16,3 +16,5 @@ viewsRouter.get('/admin', checkUser, checkAdmin, viewController.admin);
 viewsRouter.get('/ticket/:tid', checkUser, checkTicket, viewController.getTicketIdPage);
 
 viewsRouter.get('/profile', checkUser, viewController.getProfile);
+
+viewsRouter.get('/realtimeproducts', checkUser, checkAdmin, viewController.getRealTimeProducts);

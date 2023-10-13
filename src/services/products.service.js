@@ -1,5 +1,6 @@
 import { products } from '../DAO/factory.js';
 import CartDTO from '../dto/cartTicket.dto.js';
+import { upload } from '../utils/multer.js';
 import { cartsService } from './carts.service.js';
 
 class ProductService {

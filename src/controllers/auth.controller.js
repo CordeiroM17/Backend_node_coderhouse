@@ -63,11 +63,12 @@ export const authController = {
         email: req.user.email,
         firstName: req.user.firstName,
         lastName: req.user.lastName,
+        age: req.user.age,
         rol: req.user.rol,
         cart: req.user.cart,
         _id: req.user._id.toString(),
       };
-
+      
       return res.status(200).redirect('/products');
     } catch (error) {
       CustomError.createError({

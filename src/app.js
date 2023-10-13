@@ -22,6 +22,8 @@ import { logger } from './utils/logger.js';
 import CustomError from './services/errors/customError.js';
 import EErrors from './services/errors/enums.js';
 import { usersRouter } from './routes/users.routes.js';
+import { Server } from 'socket.io';
+import { productService } from './services/products.service.js';
 
 const app = express();
 factory();
@@ -97,8 +99,27 @@ app.get('*', (req, res, next) => {
   }
 });
 
-app.listen(entorno.PORT, () => {
+const httpServer = app.listen(entorno.PORT, () => {
   logger.info(`Server running on port ${entorno.API_URL}`);
+});
+
+const socketServer = new Server(httpServer);
+
+socketServer.on('connection', (socket) => {
+  socket.on('new-product-created', async (newProduct) => {
+    const productCreated = await productService.createProduct(newProduct);
+    if (productCreated) {
+      const productList = await productService.getProducts();
+      socketServer.emit('products', productList);
+    } else {
+      socketServer.emit('products', productCreated);
+    }
+  });
+
+  socket.on('delete-product', async (idToDelete) => {
+    await productService.deleteProduct(idToDelete);
+    socketServer.emit('delete-product-in-table', idToDelete);
+  });
 });
 
 app.use(errorHandler);

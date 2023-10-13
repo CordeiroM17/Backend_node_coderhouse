@@ -2,6 +2,11 @@
     <h2>Welcome {{firstName}}</h2>
     <nav>
         <ul>
+            {{#if rol}}
+                <li>
+                    <a class="profile__btn--secret" href='/realtimeproducts'>Admin Products<a></a>
+                </li>
+            {{/if}}
             <li>
                 <a class="profile__btn--secret" href='/profile'>Profile<a></a>
             </li>

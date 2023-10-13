@@ -1,4 +1,3 @@
-import { entorno } from '../dirname.js';
 import { productService } from '../services/products.service.js';
 import { logger } from '../utils/logger.js';
 
@@ -33,7 +32,7 @@ export const productsController = {
       return res.status(500).json({
         status: 'Error',
         msg: 'Something went wrong',
-        data: {},
+        data: { error },
       });
     }
   },
@@ -51,7 +50,7 @@ export const productsController = {
       return res.status(404).json({
         status: 'Error',
         msg: 'Product not found',
-        data: {},
+        data: { error },
       });
     }
   },
@@ -69,7 +68,7 @@ export const productsController = {
       return res.status(404).json({
         status: 'Error',
         msg: 'Product not exist',
-        data: {},
+        data: { error },
       });
     }
   },
@@ -87,7 +86,7 @@ export const productsController = {
       return res.status(404).json({
         status: 'Error',
         msg: 'Product not created',
-        data: {},
+        data: { error },
       });
     }
   },
@@ -106,7 +105,7 @@ export const productsController = {
       return res.status(404).json({
         status: 'Error',
         msg: 'Could not modify object',
-        data: {},
+        data: { error },
       });
     }
   },
