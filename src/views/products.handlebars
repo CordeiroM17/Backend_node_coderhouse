@@ -23,7 +23,9 @@
     <section class="card__container">
         {{#each payload}}
             <div class="card">
-                <img src="{{this.thubmail}}" alt="image"/>
+                <div class="card__image__container">
+                    <img src="{{this.thubmail}}" alt="image"/>
+                </div>
                 <div class="card__data">
                     <div class="card__title">
                         <h2>{{this.title}}</h2>
