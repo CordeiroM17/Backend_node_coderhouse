@@ -75,8 +75,9 @@ export const productsController = {
 
   createOneProduct: async function (req, res) {
     try {
+      const file = req.file;
       const productToCreate = req.body;
-      const productCreated = await productService.createProduct(productToCreate);
+      const productCreated = await productService.createProduct(productToCreate, file);
       return res.status(201).json({
         status: 'Success',
         msg: 'Product created',

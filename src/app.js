@@ -106,14 +106,9 @@ const httpServer = app.listen(entorno.PORT, () => {
 const socketServer = new Server(httpServer);
 
 socketServer.on('connection', (socket) => {
-  socket.on('new-product-created', async (newProduct) => {
-    const productCreated = await productService.createProduct(newProduct);
-    if (productCreated) {
-      const productList = await productService.getProducts();
-      socketServer.emit('products', productList);
-    } else {
-      socketServer.emit('products', productCreated);
-    }
+  socket.on('new-product-created', async () => {
+    const productList = await productService.getProducts();
+    socketServer.emit('products', productList);
   });
 
   socket.on('delete-product', async (idToDelete) => {

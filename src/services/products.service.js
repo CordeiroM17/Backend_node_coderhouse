@@ -1,7 +1,9 @@
 import { products } from '../DAO/factory.js';
+import { __dirname } from '../dirname.js';
 import CartDTO from '../dto/cartTicket.dto.js';
-import { upload } from '../utils/multer.js';
+import { logger } from '../utils/logger.js';
 import { cartsService } from './carts.service.js';
+import fs from 'fs';
 
 class ProductService {
   async getProducts(page, limit) {
@@ -20,6 +22,7 @@ class ProductService {
 
   async deleteProduct(id) {
     const productDeleted = await products.deleteProduct(id);
+
     if (productDeleted) {
       return productDeleted;
     } else {
@@ -27,8 +30,12 @@ class ProductService {
     }
   }
 
-  async createProduct(newProduct) {
-    const { title, description, price, thubmail, code, stock } = newProduct;
+  async createProduct(newProduct, file) {
+    let { title, description, price, code, stock } = newProduct;
+
+    let { filename } = file;
+
+    let thubmail = '/fileUpload/' + filename
 
     const foundCode = await products.getProductByCode(code);
 

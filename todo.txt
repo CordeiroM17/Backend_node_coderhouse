@@ -8,8 +8,6 @@
 
 14 - Revisar el tema del chat, premius y pasarela de pagos si da el tiempo (no obligatorio)
 
-17 - Hacer que se vea el ticket en el correo que se manda luego del purchase
-
 18 - Hacer multer para archivos, ver video de youtube en historial
 
 20 - Arreglar los correos, que queden mas cuquis (Opcional, solo queda hacer el de ticket)

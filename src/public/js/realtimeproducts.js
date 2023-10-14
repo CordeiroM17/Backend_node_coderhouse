@@ -9,21 +9,42 @@ let thubmail = document.getElementById('form-new-product-thubmail');
 let code = document.getElementById('form-new-product-code');
 let stock = document.getElementById('form-new-product-stock');
 
-formProducts.addEventListener('submit', (e) => {
+formProducts.addEventListener('submit', async (e) => {
   e.preventDefault();
 
-  let newProduct = {
+  /* let newProduct = {
     title: title.value,
     description: description.value,
     price: price.value,
-    thubmail: thubmail.value,
+    thubmail: thubmail.files[0], // Obtener el archivo
     code: code.value,
     stock: stock.value,
-  };
+  }; */
 
-  formProducts.reset();
+  let formData = new FormData();
+  formData.append('title', title.value);
+  formData.append('description', description.value);
+  formData.append('price', price.value);
+  formData.append('thubmail', thubmail.files[0]);
+  formData.append('code', code.value);
+  formData.append('stock', stock.value);
 
-  socket.emit('new-product-created', newProduct);
+  return fetch('/api/products', {
+    method: 'post',
+    body: formData
+  }).then((response) => {
+    if (response.ok) {
+      formProducts.reset();
+
+      socket.emit('new-product-created');
+    } else {
+      Swal.fire({
+        title: 'Something went wrong',
+        text: 'Please check the code maybe is duplicated',
+        icon: 'warning',
+      });
+    }
+  })
 });
 
 socket.on('products', (products) => {
@@ -34,13 +55,15 @@ socket.on('products', (products) => {
     let data = document.createElement('tr');
     container.append(data);
     data.innerHTML = `
-                      <td>${lastProduct.thubmail}</td>
+                      <td>
+                        <img src="${lastProduct.thubmail}"/>
+                      </td>
                       <td>${lastProduct.title}</td>
                       <td>${lastProduct.price}</td>
                       <td>${lastProduct.code}</td>
                       <td>${lastProduct.stock}</td>
                       <td>
-                      <button type="button" class="btn-delete" value=${lastProduct.id}>
+                      <button type="button" class="btn-delete" value=${lastProduct._id}>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                           <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
                         </svg>
