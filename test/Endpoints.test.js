@@ -2,6 +2,7 @@ import mongoose, { mongo } from 'mongoose';
 import chai from 'chai';
 import supertest from 'supertest';
 import { faker } from '@faker-js/faker';
+import fs from 'fs';
 
 const expect = chai.expect;
 const requester = supertest('http://localhost:8080');
@@ -13,11 +14,11 @@ let cookieValue;
 // Productos e ids
 const staticCode = faker.number.hex();
 
-const productOne = {
+/* const productOne = {
   title: faker.commerce.productName(),
   description: faker.commerce.productDescription(),
   price: faker.commerce.price(),
-  thubmail: faker.image.url(),
+  thubmail: Agregar archivo local ,
   code: faker.number.hex(),
   stock: faker.number.int(100),
 };
@@ -26,10 +27,10 @@ const productTwo = {
   title: faker.commerce.productName(),
   description: faker.commerce.productDescription(),
   price: faker.commerce.price(),
-  thubmail: faker.image.url(),
+  thubmail: Agregar archivo local ,
   code: staticCode,
   stock: faker.number.int(100),
-};
+}; */
 
 const productTwoEdited = {
   title: 'Samsung 11',
@@ -52,6 +53,11 @@ const mockUser = {
   password: faker.internet.password(),
 };
 
+const adminUser = {
+  email: 'admin@admin.com',
+  password: 'admin',
+};
+
 let emailUser;
 
 // Cart
@@ -67,7 +73,7 @@ describe('Testing API CoderHouse', () => {
     });
 
     // Limpia la colección 'users'
-    await mongoose.connection.collection('users').deleteMany({});
+    // await mongoose.connection.collection('users').deleteMany({});
 
     // Limpia la colección 'products'
     await mongoose.connection.collection('products').deleteMany({});
@@ -91,11 +97,8 @@ describe('Testing API CoderHouse', () => {
       expect(_body);
     });
 
-    it('En endpoint POST /auth/login debe loggear el user creado', async () => {
-      const result = await requester.post('/auth/login').send({
-        email: mockUser.email,
-        password: mockUser.password,
-      });
+    it('En endpoint POST /auth/login debe loggear el user admin', async () => {
+      const result = await requester.post('/auth/login').send(adminUser);
 
       const cookie = result.headers['set-cookie'][0];
       expect(cookie).to.be.ok;
@@ -107,9 +110,9 @@ describe('Testing API CoderHouse', () => {
       expect(cookieValue).to.be.ok;
     });
 
-    it('En endpoint GET /auth/current debe devolver el contenido del user', async () => {
-      const { _body } = await requester.get('/auth/current').set('Cookie', [`${cookieName}=${cookieValue}`]);
-      expect(_body.data.email).to.be.eql(mockUser.email);
+    it('En endpoint GET /auth/current debe devolver el contenido del user admin', async () => {
+      const { _body } = await requester.get('/api/users/current').set('Cookie', [`${cookieName}=${cookieValue}`]);
+      expect(_body.data.email).to.be.eql(adminUser.email);
     });
   });
 

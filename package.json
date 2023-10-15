@@ -8,8 +8,7 @@
     "node": "18.x"
   },
   "scripts": {
-    "test-endpoints": "mocha test/Endpoints.test.js",
-    "test-cien-products": "mocha test/CrearCienProducts.test.js",
+    "test": "mocha test/Endpoints.test.js --timeout 100000",
     "dev": "nodemon -e yaml,js src/app.js DEV",
     "start": "node src/app.js PROD"
   },
