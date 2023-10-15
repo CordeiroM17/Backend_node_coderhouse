@@ -35,7 +35,7 @@ class ProductService {
 
     let { filename } = file;
 
-    let thubmail = '/fileUpload/' + filename
+    let thubmail = 'fileUpload/' + filename;
 
     const foundCode = await products.getProductByCode(code);
 
