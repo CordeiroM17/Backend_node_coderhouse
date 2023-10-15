@@ -22,7 +22,7 @@ formProducts.addEventListener('submit', async (e) => {
 
   return fetch('/api/products', {
     method: 'post',
-    body: formData
+    body: formData,
   }).then((response) => {
     if (response.ok) {
       formProducts.reset();
@@ -35,7 +35,7 @@ formProducts.addEventListener('submit', async (e) => {
         icon: 'warning',
       });
     }
-  })
+  });
 });
 
 socket.on('products', (products) => {
@@ -50,7 +50,7 @@ socket.on('products', (products) => {
                         <img src="${lastProduct.thubmail}"/>
                       </td>
                       <td>${lastProduct.title}</td>
-                      <td>${lastProduct.price}</td>
+                      <td>$${lastProduct.price}</td>
                       <td>${lastProduct.code}</td>
                       <td>${lastProduct.stock}</td>
                       <td>
@@ -67,6 +67,10 @@ socket.on('products', (products) => {
     Swal.fire({
       icon: 'success',
       title: 'Product created',
+      toast: true,
+      position: 'top',
+      timer: 3000,
+      showConfirmButton: false,
     });
   } else {
     Swal.fire({
