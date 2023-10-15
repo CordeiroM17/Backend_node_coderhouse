@@ -12,6 +12,15 @@ let stock = document.getElementById('form-new-product-stock');
 formProducts.addEventListener('submit', async (e) => {
   e.preventDefault();
 
+  /* let newProduct = {
+    title: title.value,
+    description: description.value,
+    price: price.value,
+    thubmail: thubmail.files[0], // Obtener el archivo
+    code: code.value,
+    stock: stock.value,
+  }; */
+
   let formData = new FormData();
   formData.append('title', title.value);
   formData.append('description', description.value);
@@ -67,10 +76,6 @@ socket.on('products', (products) => {
     Swal.fire({
       icon: 'success',
       title: 'Product created',
-      toast: true,
-      position: 'top',
-      timer: 3000,
-      showConfirmButton: false,
     });
   } else {
     Swal.fire({
